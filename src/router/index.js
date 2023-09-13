@@ -1,10 +1,10 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import globalFeed from '@/views/GlobalFeed.vue'
+import appMainPage from '@/views/MainPage.vue'
 const routes = [
   {
     path: '/',
-    name: 'globalFeed',
-    component: globalFeed,
+    name: 'mainPage',
+    component: appMainPage,
   },
 ]
 const router = createRouter({
