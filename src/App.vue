@@ -1,19 +1,20 @@
 <template>
   <v-app>
     <v-main>
-      <HelloWorld/>
+      <appGlobalFeed />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import appGlobalFeed from '@/views/GlobalFeed.vue'
 
 export default {
   name: 'App',
 
   components: {
-    HelloWorld,
+    // HelloWorld,
+    appGlobalFeed,
   },
 
   data: () => ({
