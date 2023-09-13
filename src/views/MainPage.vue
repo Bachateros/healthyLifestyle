@@ -3,10 +3,11 @@
   <v-content class="mainPage">
     <h1>Main Page</h1>
     <p class="text-capitalize bg-red text-blue">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde repellendus,
-      sequi, fugit temporibus nihil blanditiis consectetur officiis debitis
-      quasi nesciunt, dolor sed dolores numquam voluptatibus? Voluptates ad
-      aliquam reprehenderit quisquam!
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde
+      repellendus, sequi, fugit temporibus nihil blanditiis
+      consectetur officiis debitis quasi nesciunt, dolor sed dolores
+      numquam voluptatibus? Voluptates ad aliquam reprehenderit
+      quisquam!
     </p>
     <v-btn
       variant="flat"
@@ -14,7 +15,10 @@
       selected-class="v-slide-group-item--active"
       @click="showDate"
     >
-      <v-icon margin="left" icon="mdi mdi-email-edit-outline"></v-icon>
+      <v-icon
+        margin="left"
+        icon="mdi mdi-email-edit-outline"
+      ></v-icon>
       <span>email me</span>
     </v-btn>
   </v-content>
@@ -32,6 +36,7 @@ export default {
       foodStore: useFoodStore(),
     }
   },
+  computed: {},
   methods: {
     showDate() {
       let date = new Date()
