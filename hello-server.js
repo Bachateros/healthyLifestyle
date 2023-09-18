@@ -4,7 +4,9 @@ const require = createRequire(import.meta.url)
 
 const http = require('http')
 // import http from 'http'
+
 const PORT = 3001
+
 const server = http.createServer((req, res) => {
   console.log('server request')
   console.log(req.url, req.method)
@@ -12,7 +14,6 @@ const server = http.createServer((req, res) => {
   res.setHeader('Content-Type', 'application/json')
 
   const data = JSON.stringify(require('./server/food_base.json'))
-  //   console.log();
 
   res.end(data)
 })
