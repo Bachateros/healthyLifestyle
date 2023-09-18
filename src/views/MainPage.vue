@@ -2,13 +2,6 @@
   <appHeader />
   <v-content class="mainPage">
     <h1 class="text-center">Main Page</h1>
-    <p class="text-capitalize bg-red text-blue">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde
-      repellendus, sequi, fugit temporibus nihil blanditiis
-      consectetur officiis debitis quasi nesciunt, dolor sed dolores
-      numquam voluptatibus? Voluptates ad aliquam reprehenderit
-      quisquam!
-    </p>
     <!-- <v-btn
       variant="flat"
       color="blue"
