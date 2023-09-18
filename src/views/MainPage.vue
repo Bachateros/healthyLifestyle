@@ -27,7 +27,7 @@
   </v-content>
 </template>
 <script>
-import { useFoodStore } from '@/store/index'
+import { useFoodStore } from '@/stores/foodBase'
 import format from 'date-fns/format'
 import { es, ru } from 'date-fns/locale'
 import appHeader from '@/components/Header.vue'
@@ -55,9 +55,9 @@ export default {
       console.log('date: ', date)
     },
   },
-  // mounted() {
-  //   this.foodStore.getFood()
-  // },
+  mounted() {
+    this.foodStore.getFood()
+  },
 }
 </script>
 
