@@ -21,15 +21,22 @@
       ></v-icon>
       <span>email me</span>
     </v-btn> -->
+    <p>Date: {{ dateCute }}</p>
     <div class="d-flex justify-center">
       <v-locale-provider locale="ru">
-        <v-date-picker elevation="24" color="primary"></v-date-picker>
+        <v-date-picker
+          elevation="24"
+          color="primary"
+          v-model="date"
+        ></v-date-picker>
       </v-locale-provider>
     </div>
   </v-content>
 </template>
 <script>
 import { useFoodStore } from '@/store/index'
+import format from 'date-fns/format'
+import { es, ru } from 'date-fns/locale'
 import appHeader from '@/components/Header.vue'
 export default {
   name: 'appGlobalFeed',
@@ -39,9 +46,16 @@ export default {
   data() {
     return {
       foodStore: useFoodStore(),
+      date: null,
     }
   },
-  computed: {},
+  computed: {
+    dateCute() {
+      return this.date
+        ? format(this.date, 'dd MMM yyyy', { locale: ru })
+        : ''
+    },
+  },
   methods: {
     showDate() {
       let date = new Date()
