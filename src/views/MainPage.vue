@@ -1,7 +1,7 @@
 <template>
   <appHeader />
   <v-content class="mainPage">
-    <h1>Main Page</h1>
+    <h1 class="text-center">Main Page</h1>
     <p class="text-capitalize bg-red text-blue">
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde
       repellendus, sequi, fugit temporibus nihil blanditiis
@@ -9,7 +9,7 @@
       numquam voluptatibus? Voluptates ad aliquam reprehenderit
       quisquam!
     </p>
-    <v-btn
+    <!-- <v-btn
       variant="flat"
       color="blue"
       selected-class="v-slide-group-item--active"
@@ -20,7 +20,12 @@
         icon="mdi mdi-email-edit-outline"
       ></v-icon>
       <span>email me</span>
-    </v-btn>
+    </v-btn> -->
+    <div class="d-flex justify-center">
+      <v-locale-provider locale="ru">
+        <v-date-picker elevation="24" color="primary"></v-date-picker>
+      </v-locale-provider>
+    </div>
   </v-content>
 </template>
 <script>
@@ -43,6 +48,9 @@ export default {
       console.log('date: ', date)
     },
   },
+  // mounted() {
+  //   this.foodStore.getFood()
+  // },
 }
 </script>
 
