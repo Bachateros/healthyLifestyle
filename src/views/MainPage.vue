@@ -2,19 +2,18 @@
   <appHeader />
   <v-content class="mainPage">
     <h1 class="text-center">Main Page</h1>
-    <!-- <v-btn
-      variant="flat"
-      color="blue"
-      selected-class="v-slide-group-item--active"
-      @click="showDate"
-    >
-      <v-icon
-        margin="left"
-        icon="mdi mdi-email-edit-outline"
-      ></v-icon>
-      <span>email me</span>
-    </v-btn> -->
     <p>Date: {{ dateCute }}</p>
+    <v-text-field
+      slot="activator"
+      label="Date due"
+      prepend-icon="date_range"
+      @click="openCalendar"
+    >
+    </v-text-field>
+    <v-date-picker
+      v-if="isCalendarShowed"
+      v-model="date"
+    ></v-date-picker>
     <div class="d-flex justify-center">
       <v-locale-provider locale="ru">
         <v-date-picker
@@ -40,6 +39,7 @@ export default {
     return {
       foodStore: useFoodStore(),
       date: null,
+      isCalendarShowed: false,
     }
   },
   computed: {
@@ -53,6 +53,9 @@ export default {
     showDate() {
       let date = new Date()
       console.log('date: ', date)
+    },
+    openCalendar() {
+      this.isCalendarShowed = true
     },
   },
   mounted() {
