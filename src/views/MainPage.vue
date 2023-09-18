@@ -46,7 +46,7 @@
 </template>
 <script>
 import { useFoodStore } from '@/stores/foodBase'
-import { useUserInfomation } from '@/stores/user'
+import { useUserInformation } from '@/stores/user'
 import format from 'date-fns/format'
 import { es, ru } from 'date-fns/locale'
 import appHeader from '@/components/Header.vue'
@@ -58,7 +58,7 @@ export default {
   data() {
     return {
       foodStore: useFoodStore(),
-      user: useUserInfomation(),
+      user: useUserInformation(),
       date: null,
       isCalendarShowed: false,
     }
