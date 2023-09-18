@@ -1,6 +1,6 @@
 <template>
   <appHeader />
-  <v-content class="mainPage">
+  <v-content v-if="user.name" class="mainPage">
     <h1 class="text-center">Main Page</h1>
     <p>Date: {{ dateCute }}</p>
     <v-text-field
@@ -24,9 +24,29 @@
       </v-locale-provider>
     </div>
   </v-content>
+  <v-content v-else>
+    <div class="text-center">
+      <h1>Приветствую вас</h1>
+      <h2>в приложении по улучшении своего питания!</h2>
+      <br />
+      <p class="font-italic">
+        Так как контролируя, что вы едите, вы станете лучше выбирать
+        что съесть
+      </p>
+      <br />
+      <h2>Давайте приступим!</h2>
+      <br />
+      <v-btn>
+        <routerLink :to="{ name: 'userSettings' }" class="routerLink"
+          >Познакомиться</routerLink
+        >
+      </v-btn>
+    </div>
+  </v-content>
 </template>
 <script>
 import { useFoodStore } from '@/stores/foodBase'
+import { useUserInfomation } from '@/stores/user'
 import format from 'date-fns/format'
 import { es, ru } from 'date-fns/locale'
 import appHeader from '@/components/Header.vue'
@@ -38,6 +58,7 @@ export default {
   data() {
     return {
       foodStore: useFoodStore(),
+      user: useUserInfomation(),
       date: null,
       isCalendarShowed: false,
     }

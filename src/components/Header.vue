@@ -64,9 +64,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.routerLink {
-  text-decoration: none;
-  color: inherit;
-}
-</style>
+<style lang="scss" scoped></style>
