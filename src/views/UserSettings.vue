@@ -1,9 +1,9 @@
 <template>
-  User Profile <appHeader></appHeader> user : {{ user.name }}
+  User Profile <appHeader></appHeader> user : {{ user.userData.name }}
   <v-sheet width="75%" max-width="500" class="mx-auto">
-    <v-form ref="form">
+    <v-form ref="form" v-if="!user.userData.name">
       <v-text-field
-        v-model="user.name"
+        v-model="user.userData.name"
         :counter="20"
         :rules="nameRules"
         label="Name"
@@ -11,7 +11,7 @@
       ></v-text-field>
 
       <v-select
-        v-model="user.sex"
+        v-model="user.userData.sex"
         :items="sex"
         :rules="[v => !!v || 'Item is required']"
         label="Sex"
@@ -19,7 +19,7 @@
       ></v-select>
 
       <v-text-field
-        v-model="user.age"
+        v-model="user.userData.age"
         :counter="3"
         :rules="ageRules"
         label="Age"
@@ -27,7 +27,7 @@
       ></v-text-field>
 
       <v-text-field
-        v-model="user.height"
+        v-model="user.userData.height"
         :counter="3"
         :rules="bodyRulus"
         label="Height"
@@ -35,7 +35,7 @@
       ></v-text-field>
 
       <v-text-field
-        v-model="user.weight"
+        v-model="user.userData.weight"
         :counter="3"
         :rules="bodyRulus"
         label="Weight"
@@ -93,13 +93,14 @@ export default {
   }),
   methods: {
     async validate() {
+      console.log(JSON.parse(window.localStorage.getItem('user')))
+
+      console.log(this.user)
+
       const { valid } = await this.$refs.form.validate()
 
       if (valid) {
-        console.log(
-          'user data:',
-          JSON.parse(JSON.stringify(this.user))
-        )
+        this.user.updateUserData(this.user)
       }
     },
     reset() {
