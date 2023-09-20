@@ -1,27 +1,34 @@
 import { defineStore } from 'pinia'
 
+const defaultUserData = {
+  name: '',
+  sex: '',
+  age: 18,
+  height: 0,
+  weight: 0,
+}
+
 const getUserData = () => {
   const userInLocalStorage = window.localStorage.getItem('user')
   if (userInLocalStorage) {
     return JSON.parse(userInLocalStorage).userData
-  } else
-    return {
-      name: '',
-      sex: '',
-      age: 18,
-      height: 175,
-      weight: 70,
-    }
+  } else return defaultUserData
 }
 
 export const useUserInformation = defineStore('user', {
   state: () => ({
     userData: getUserData(),
+    isUser: false,
   }),
-  getters: {},
   actions: {
     updateUserData(newUser) {
       window.localStorage.setItem('user', JSON.stringify(newUser))
+      this.isUser = true
+    },
+    deleteUserData() {
+      window.localStorage.removeItem('user')
+      this.userData = defaultUserData
+      console.log('del use', this.userData)
     },
   },
 })
