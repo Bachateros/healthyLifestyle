@@ -1,6 +1,6 @@
 <template>
   <appHeader />
-  <v-content v-if="user.name" class="mainPage">
+  <v-content v-if="user.isUser" class="mainPage">
     <h1 class="text-center">Main Page</h1>
     <p>Date: {{ dateCute }}</p>
     <v-text-field

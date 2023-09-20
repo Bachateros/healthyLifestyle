@@ -126,7 +126,7 @@
 </template>
 <script>
 import appHeader from '@/components/Header.vue'
-import { useUserInformation } from '@/stores/user'
+import { useUserInformation, defaultUserData } from '@/stores/user'
 export default {
   name: 'appUserSettings',
   components: {
@@ -139,7 +139,7 @@ export default {
     sex: ['Male', 'Female'],
     dialog: false,
     user: useUserInformation(),
-    localUser: useUserInformation().userData,
+    localUser: defaultUserData,
     isChanged: false,
     nameRules: [
       v => !!v || 'Name is required',
@@ -168,7 +168,7 @@ export default {
 
       if (valid) {
         this.isChanged = false
-        this.user.updateUserData(this.user)
+        this.user.updateUserData(this.localUser)
       }
     },
     reset() {
@@ -184,6 +184,7 @@ export default {
       this.dialog = false
       this.user.deleteUserData()
       this.isChanged = true
+      this.$router.push({ name: 'mainPage' })
     },
   },
   computed: {

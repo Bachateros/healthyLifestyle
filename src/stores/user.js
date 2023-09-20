@@ -1,13 +1,12 @@
 import { defineStore } from 'pinia'
 
-const defaultUserData = {
+export const defaultUserData = {
   name: '',
   sex: '',
   age: 18,
   height: 0,
   weight: 0,
 }
-
 const getUserData = () => {
   const userInLocalStorage = window.localStorage.getItem('user')
   if (userInLocalStorage) {
@@ -27,8 +26,8 @@ export const useUserInformation = defineStore('user', {
     },
     deleteUserData() {
       window.localStorage.removeItem('user')
-      this.userData = defaultUserData
-      console.log('del use', this.userData)
+      this.userData = getUserData()
+      this.isUser = false
     },
   },
 })
