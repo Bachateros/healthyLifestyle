@@ -56,8 +56,6 @@ export default {
   },
   computed: {
     currentPage() {
-      console.log(this.$route)
-
       return this.$route.matched[0].name
     },
   },
