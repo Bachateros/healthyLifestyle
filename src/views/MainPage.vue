@@ -2,37 +2,40 @@
   <appHeader />
   <v-content v-if="user.isUser" class="mainPage">
     <h1 class="text-center">Доброго времени суток!</h1>
-    {{ foodStore.foods[0] }}
     <p>
       <v-btn
         variant="flat"
-        class="text-decoration-underline"
+        class="text-decoration-underline px-2"
         background-color="grey"
+        @click="chooseDate"
         >Сегодня</v-btn
-      >
-      <span class="text-decoration-underline">Сегодня</span> вы съели:
+      ><span v-if="getTodayEatenFood.length">вы съели:</span>
+      <span v-else>вы еще ничего не съели.</span>
     </p>
-    <p>Date: {{ dateCute }}</p>
-    <v-text-field
+    <p>{{ getTodayEatenFood }}</p>
+    <p v-if="getTodayEatenFood.length">
+      [Таблица съеденных продуктов]
+    </p>
+    <p v-else>[Кнопка выбора продукта]</p>
+    <!-- <v-text-field
       slot="activator"
       label="Date due"
       prepend-icon="date_range"
       @click="openCalendar"
     >
-    </v-text-field>
-    <v-date-picker
-      v-if="isCalendarShowed"
-      v-model="date"
-    ></v-date-picker>
+    </v-text-field> -->
     <div class="d-flex justify-center">
       <v-locale-provider locale="ru">
         <v-date-picker
+          v-if="isCalendarShowed && false"
           elevation="24"
           color="primary"
           v-model="date"
         ></v-date-picker>
       </v-locale-provider>
     </div>
+    <p>Что-то еще съели?[Кнопка выбора продукта]</p>
+    {{ today }}
   </v-content>
   <v-content v-else>
     <div class="text-center">
@@ -55,7 +58,7 @@
   </v-content>
 </template>
 <script>
-import { useFoodStore } from '@/stores/foodBase'
+import { useFoodStore, eatenFoodTemplate } from '@/stores/foodBase'
 import { useUserInformation } from '@/stores/user'
 import format from 'date-fns/format'
 import { es, ru } from 'date-fns/locale'
@@ -69,9 +72,9 @@ export default {
     return {
       foodStore: useFoodStore(),
       user: useUserInformation(),
+      todayEatenFood: [],
       date: null,
       isCalendarShowed: false,
-      foodData: [],
     }
   },
   computed: {
@@ -80,6 +83,15 @@ export default {
         ? format(this.date, 'dd MMM yyyy', { locale: ru })
         : ''
     },
+    today() {
+      const now = new Date()
+      return format(now, 'dd.MM.yyyy', { locale: ru })
+    },
+    getTodayEatenFood() {
+      return this.foodStore.eatenFoods.filter(
+        item => item.date === this.today
+      )
+    },
   },
   methods: {
     showDate() {
@@ -87,6 +99,9 @@ export default {
       console.log('date: ', date)
     },
     openCalendar() {
+      this.isCalendarShowed = true
+    },
+    chooseDate() {
       this.isCalendarShowed = true
     },
   },
