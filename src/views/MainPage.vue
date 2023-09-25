@@ -16,7 +16,9 @@
     <p v-if="getTodayEatenFood.length">
       [Таблица съеденных продуктов]
     </p>
-    <p v-else>[Кнопка выбора продукта]</p>
+    <p v-else>
+      [Кнопка выбора продукта] <appAddProduct type="string" />
+    </p>
     <!-- <v-text-field
       slot="activator"
       label="Date due"
@@ -34,7 +36,11 @@
         ></v-date-picker>
       </v-locale-provider>
     </div>
-    <p>Что-то еще съели?[Кнопка выбора продукта]</p>
+    <p>
+      Что-то еще съели?[Кнопка выбора продукта]<appAddProduct
+        type="string"
+      />
+    </p>
     {{ today }}
   </v-content>
   <v-content v-else>
@@ -60,13 +66,18 @@
 <script>
 import { useFoodStore, eatenFoodTemplate } from '@/stores/foodBase'
 import { useUserInformation } from '@/stores/user'
+
 import format from 'date-fns/format'
 import { es, ru } from 'date-fns/locale'
+
 import appHeader from '@/components/Header.vue'
+import appAddProduct from '@/components/AddProduct.vue'
+
 export default {
   name: 'appGlobalFeed',
   components: {
     appHeader,
+    appAddProduct,
   },
   data() {
     return {
