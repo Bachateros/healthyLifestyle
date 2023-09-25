@@ -2,6 +2,7 @@
   <appHeader />
   <v-content v-if="user.isUser" class="mainPage">
     <h1 class="text-center">Доброго времени суток!</h1>
+    {{ foodStore.foods[0] }}
     <p>
       <v-btn
         variant="flat"
@@ -70,6 +71,7 @@ export default {
       user: useUserInformation(),
       date: null,
       isCalendarShowed: false,
+      foodData: [],
     }
   },
   computed: {
