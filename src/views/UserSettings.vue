@@ -126,20 +126,23 @@
 </template>
 <script>
 import appHeader from '@/components/Header.vue'
-import { useUserInformation, defaultUserData } from '@/stores/user'
+import { useUserInformation } from '@/stores/user'
 export default {
   name: 'appUserSettings',
   components: {
     appHeader,
   },
-  mounted() {
-    console.log('local user', this.localUser)
-  },
   data: () => ({
     sex: ['Male', 'Female'],
     dialog: false,
     user: useUserInformation(),
-    localUser: defaultUserData,
+    localUser: {
+      name: '',
+      sex: '',
+      age: 18,
+      height: 0,
+      weight: 0,
+    },
     isChanged: false,
     nameRules: [
       v => !!v || 'Name is required',
@@ -160,10 +163,6 @@ export default {
   }),
   methods: {
     async validate() {
-      console.log(JSON.parse(window.localStorage.getItem('user')))
-
-      console.log(this.localUser)
-
       const { valid } = await this.$refs.form.validate()
 
       if (valid) {

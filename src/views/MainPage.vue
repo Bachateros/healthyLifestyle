@@ -1,7 +1,16 @@
 <template>
   <appHeader />
   <v-content v-if="user.isUser" class="mainPage">
-    <h1 class="text-center">Main Page</h1>
+    <h1 class="text-center">Доброго времени суток!</h1>
+    <p>
+      <v-btn
+        variant="flat"
+        class="text-decoration-underline"
+        background-color="grey"
+        >Сегодня</v-btn
+      >
+      <span class="text-decoration-underline">Сегодня</span> вы съели:
+    </p>
     <p>Date: {{ dateCute }}</p>
     <v-text-field
       slot="activator"

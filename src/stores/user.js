@@ -10,24 +10,27 @@ export const defaultUserData = {
 const getUserData = () => {
   const userInLocalStorage = window.localStorage.getItem('user')
   if (userInLocalStorage) {
-    return JSON.parse(userInLocalStorage).userData
+    return JSON.parse(userInLocalStorage)
   } else return defaultUserData
 }
 
 export const useUserInformation = defineStore('user', {
   state: () => ({
     userData: getUserData(),
-    isUser: false,
   }),
   actions: {
     updateUserData(newUser) {
       window.localStorage.setItem('user', JSON.stringify(newUser))
-      this.isUser = true
+      this.userData = getUserData()
     },
     deleteUserData() {
       window.localStorage.removeItem('user')
       this.userData = getUserData()
-      this.isUser = false
+    },
+  },
+  getters: {
+    isUser(state) {
+      return !!state.userData.name
     },
   },
 })
