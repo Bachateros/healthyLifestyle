@@ -12,13 +12,12 @@
       ><span v-if="getTodayEatenFood.length">вы съели:</span>
       <span v-else>вы еще ничего не съели.</span>
     </p>
-    <p>{{ getTodayEatenFood }}</p>
-    <p v-if="getTodayEatenFood.length">
-      [Таблица съеденных продуктов]
-    </p>
-    <p v-else>
+    <div v-if="getTodayEatenFood.length">
+      <appMealTable :foods="getTodayEatenFood" />
+    </div>
+    <div v-else>
       [Кнопка выбора продукта] <appAddProduct type="string" />
-    </p>
+    </div>
     <!-- <v-text-field
       slot="activator"
       label="Date due"
@@ -72,12 +71,14 @@ import { es, ru } from 'date-fns/locale'
 
 import appHeader from '@/components/Header.vue'
 import appAddProduct from '@/components/AddProduct.vue'
+import appMealTable from '@/components/MealTable.vue'
 
 export default {
   name: 'appGlobalFeed',
   components: {
     appHeader,
     appAddProduct,
+    appMealTable,
   },
   data() {
     return {
