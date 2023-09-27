@@ -3,10 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "start": "concurrently \"npm run dev\" \"npm run server\"",
     "serve": "vite preview",
     "build": "vite build",
     "dev": "vite",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "server": "node hello-server.js"
   },
   "dependencies": {
     "@mdi/font": "5.9.55",
@@ -25,6 +27,8 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",
+    "concurrently": "^8.2.1",
+    "npm-run-all": "^4.1.5",
     "sass": "^1.66.1",
     "sass-loader": "^13.3.2",
     "vite": "^4.4.5",
