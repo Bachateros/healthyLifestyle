@@ -56,14 +56,17 @@
               <v-col cols="4"><h3>Type of meal:</h3> </v-col>
               <v-col cols="8">
                 <v-select
+                  variant="underlined"
                   :items="['Breakfast', 'Lunch', 'Snack', 'Dinner']"
                   label="Type*"
                   required
                 ></v-select>
               </v-col>
             </v-row>
-            <v-row class="justify-center">Что съели?</v-row>
-            <v-row class="justify-center">[Search product]</v-row>
+            <v-row class="justify-center"><h3>Что съели?</h3></v-row>
+            <v-row class="justify-center">
+              <appSearchFood />
+            </v-row>
           </v-row>
         </v-container>
       </v-card-text>
@@ -89,11 +92,13 @@
 </template>
 <script>
 import appCalendar from '@/components/Calendar.vue'
+import appSearchFood from '@/components/SearchFood.vue'
 
 export default {
   name: 'appAddProduct',
   components: {
     appCalendar,
+    appSearchFood,
   },
   data: () => ({
     dialog: false,

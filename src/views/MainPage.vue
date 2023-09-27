@@ -86,7 +86,7 @@ export default {
       user: useUserInformation(),
       todayEatenFood: [],
       date: null,
-      isCalendarShowed: false,
+      isCalendarShowed: true,
     }
   },
   computed: {
