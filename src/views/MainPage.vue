@@ -9,14 +9,14 @@
         background-color="grey"
         @click="chooseDate"
         >Сегодня</v-btn
-      ><span v-if="getTodayEatenFood.length">вы съели:</span>
+      ><span v-if="isEatenSmth">вы съели:</span>
       <span v-else>вы еще ничего не съели.</span>
     </p>
-    <div v-if="getTodayEatenFood.length">
+    <div v-if="isEatenSmth">
       <appMealTable :foods="getTodayEatenFood" />
     </div>
     <div v-else>
-      [Кнопка выбора продукта] <appAddProduct type="string" />
+      <appAddProduct type="string" />
     </div>
     <!-- <v-text-field
       slot="activator"
@@ -35,7 +35,7 @@
         ></v-date-picker>
       </v-locale-provider>
     </div>
-    <p>
+    <p v-if="isEatenSmth">
       Что-то еще съели?[Кнопка выбора продукта]<appAddProduct
         type="string"
       />
@@ -103,6 +103,9 @@ export default {
       return this.foodStore.eatenFoods.filter(
         item => item.date === this.today
       )
+    },
+    isEatenSmth() {
+      return !!this.getTodayEatenFood.length
     },
   },
   methods: {

@@ -49,13 +49,7 @@
             <v-row class="align-center justify-space-between">
               <v-col cols="4"><h3>Date:</h3> </v-col>
               <v-col cols="8">
-                <v-text-field
-                  label="[Calendar @click]"
-                  hint="example of persistent helper text"
-                  variant="underlined"
-                  persistent-hint
-                  required
-                ></v-text-field>
+                <appCalendar />
               </v-col>
             </v-row>
             <v-row class="align-center justify-space-between">
@@ -94,16 +88,31 @@
   </v-dialog>
 </template>
 <script>
+import appCalendar from '@/components/Calendar.vue'
+
 export default {
   name: 'appAddProduct',
+  components: {
+    appCalendar,
+  },
   data: () => ({
     dialog: false,
+    isCalendar: false,
+    due: null,
   }),
   props: {
     type: {
       type: String,
       required: false,
       default: 'plus', //or string
+    },
+  },
+  methods: {
+    openCalendar() {
+      this.isCalendar = true
+    },
+    closeCalendar() {
+      this.isCalendar = false
     },
   },
 }
