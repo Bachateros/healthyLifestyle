@@ -56,6 +56,7 @@
               <v-col cols="4"><h3>Type of meal:</h3> </v-col>
               <v-col cols="8">
                 <v-select
+                  :rules="typeMealRule"
                   variant="underlined"
                   :items="['Breakfast', 'Lunch', 'Snack', 'Dinner']"
                   label="Type*"
@@ -65,7 +66,23 @@
             </v-row>
             <v-row class="justify-center"><h3>Что съели?</h3></v-row>
             <v-row class="justify-center">
-              <appSearchFood />
+              <v-col cols="12">
+                <appSearchFood @selecttedFood="isSelectMass = true" />
+              </v-col>
+            </v-row>
+            <v-row
+              v-if="isSelectMass"
+              class="align-center justify-space-between"
+            >
+              <v-col cols="4"><h3>Mass, g:</h3> </v-col>
+              <v-col cols="8">
+                <v-text-field
+                  label="gramm*"
+                  :rules="massRule"
+                  required
+                  variant="underlined"
+                ></v-text-field>
+              </v-col>
             </v-row>
           </v-row>
         </v-container>
@@ -104,6 +121,12 @@ export default {
     dialog: false,
     isCalendar: false,
     due: null,
+    isSelectMass: false,
+    typeMealRule: [value => !!value || 'Required'],
+    massRule: [
+      value => !!value || 'Requred',
+      value => !isNaN(value) || 'Must be number',
+    ],
   }),
   props: {
     type: {
