@@ -49,7 +49,7 @@
             <v-row class="align-center justify-space-between">
               <v-col cols="4"><h3>Date:</h3> </v-col>
               <v-col cols="8">
-                <appCalendar />
+                <appCalendar @selecttedDate="selectDate" />
               </v-col>
             </v-row>
             <v-row class="align-center justify-space-between">
@@ -67,7 +67,7 @@
             <v-row class="justify-center"><h3>Что съели?</h3></v-row>
             <v-row class="justify-center">
               <v-col cols="12">
-                <appSearchFood @selecttedFood="isSelectMass = true" />
+                <appSearchFood @selecttedFood="selectFood" />
               </v-col>
             </v-row>
             <v-row
@@ -122,6 +122,12 @@ export default {
     isCalendar: false,
     due: null,
     isSelectMass: false,
+    selecttedFood: {
+      type: '', //breakfast/lunch/dinner/fastfood
+      date: '', //15.09.2023
+      food: {}, //алыча
+      mass: 0, //150 gramm
+    },
     typeMealRule: [value => !!value || 'Required'],
     massRule: [
       value => !!value || 'Requred',
@@ -141,6 +147,14 @@ export default {
     },
     closeCalendar() {
       this.isCalendar = false
+    },
+    selectDate(date) {
+      console.log(date)
+    },
+    selectFood(food) {
+      this.isSelectMass = true
+      this.selecttedFood.food = food
+      console.log(this.selecttedFood)
     },
   },
 }

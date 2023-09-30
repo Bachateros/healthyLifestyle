@@ -1,23 +1,4 @@
 <template>
-  <!-- <v-menu>
-    <template v-slot:activator="{ props }">
-      {{ log({ props }) }}
-      <v-text-field
-        prepend-icon="mdi mdi-calendar"
-        v-bind="props"
-        :value="dateCute"
-        required
-        hint="example of persistent helper text"
-        variant="underlined"
-        persistent-hint
-      />
-    </template>
-    <v-date-picker
-      locale="ru"
-      v-model="date"
-      @click.prevent="func"
-    ></v-date-picker>
-  </v-menu> -->
   <v-text-field
     prepend-icon="mdi mdi-calendar"
     v-if="!isCalendar"
@@ -30,11 +11,10 @@
   />
   <v-date-picker
     class="calendar"
-    mode="time"
     locale="ru"
     v-model="date"
-    @input="isCalendar = false"
-    v-if="isCalendar"
+    @click="selectDate"
+    v-else
   ></v-date-picker>
 </template>
 <script>
@@ -44,27 +24,26 @@ export default {
   name: 'appCalendar',
   data() {
     return {
-      date: null,
+      date: new Date(),
       isCalendar: false,
     }
   },
   methods: {
-    log(val) {
-      console.log('props', val)
-    },
-    func() {
-      console.log('sdfsad')
+    selectDate(e) {
+      if (e.target.textContent === 'Cancel') {
+        // console.log(e.target.textContent)
+        this.isCalendar = false
+      } else if (e.target.textContent === 'OK') {
+        this.isCalendar = false
+        this.$emit('selecttedDate', this.date)
+        // console.log(e.target.textContent)
+        // console.log(this.date)
+      }
     },
   },
   computed: {
     dateCute() {
-      if (!this.date) {
-        const now = new Date()
-        return format(now, 'dd.MM.yyyy', { locale: ru })
-      } else
-        return this.date
-          ? format(this.date, 'dd.MM.yyyy', { locale: ru })
-          : ''
+      return format(this.date, 'dd.MM.yyyy', { locale: ru })
     },
   },
   watch: {
@@ -77,7 +56,8 @@ export default {
 
 <style lang="scss" scoped>
 .calendar {
-  position: absolute;
+  position: relative;
+  padding: 10px;
   z-index: 100;
   box-shadow: -3px -3px 5px 5px solid;
   top: 10px;
