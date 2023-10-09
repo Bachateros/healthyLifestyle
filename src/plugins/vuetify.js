@@ -13,18 +13,15 @@ import {
   VDataTableVirtual,
 } from 'vuetify/labs/VDataTable'
 
-export default createVuetify(
-  {
-    components: {
-      VDatePicker,
-      VDataTable,
-      VDataTableServer,
-      VDataTableVirtual,
-    },
-    locale: {
-      locale: 'ru',
-      messages: { ru, en },
-    },
-  }
-  // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
-)
+export default createVuetify({
+  components: {
+    VDatePicker,
+    VDataTable,
+    VDataTableServer,
+    VDataTableVirtual,
+  },
+  locale: {
+    locale: 'ru',
+    messages: { ru, en },
+  },
+})
