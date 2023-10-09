@@ -168,6 +168,7 @@ export default {
 
       if (valid && this.addingFood.mass) {
         this.foodStore.eatenFoods.push(this.addingFood)
+        this.foodStore.updateEatenBase()
         this.dialog = false
       }
     },
