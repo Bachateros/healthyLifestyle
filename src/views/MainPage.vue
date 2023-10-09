@@ -1,6 +1,6 @@
 <template>
   <appHeader />
-  <v-content v-if="user.isUser" class="mainPage">
+  <div v-if="user.isUser" class="pa-5">
     <h1 class="text-center">Доброго времени суток!</h1>
     <div>
       <v-btn
@@ -22,28 +22,15 @@
     <div v-else>
       <appAddProduct type="string" />
     </div>
-
-    <!-- <div class="d-flex justify-center">
-      <v-locale-provider locale="ru">
-        <v-date-picker
-          v-if="isCalendarShowed && false"
-          elevation="24"
-          color="primary"
-          v-model="date"
-        ></v-date-picker>
-      </v-locale-provider>
-    </div> -->
     <v-row
       v-if="isEatenSmth"
       class="my-4 d-flex flex-column align-center"
     >
-      <!-- d-flex flex-column align-end justify-end  -->
       <v-row class="justify-end mb-n1">Что-то еще съели?</v-row>
       <v-row><appAddProduct type="string" /></v-row>
     </v-row>
-    {{ today }}
-  </v-content>
-  <v-content v-else>
+  </div>
+  <div v-else>
     <div class="text-center">
       <h1>Приветствую вас</h1>
       <h2>в приложении по улучшении своего питания!</h2>
@@ -61,10 +48,10 @@
         >
       </v-btn>
     </div>
-  </v-content>
+  </div>
 </template>
 <script>
-import { useFoodStore, eatenFoodTemplate } from '@/stores/foodBase'
+import { useFoodStore } from '@/stores/foodBase'
 import { useUserInformation } from '@/stores/user'
 
 import format from 'date-fns/format'
@@ -86,17 +73,11 @@ export default {
     return {
       foodStore: useFoodStore(),
       user: useUserInformation(),
-      todayEatenFood: [],
       today: format(new Date(), 'dd.MM.yyyy', { locale: ru }),
       isCalendarShowed: false,
     }
   },
   computed: {
-    dateCute() {
-      return this.today
-        ? format(this.today, 'dd MMM yyyy', { locale: ru })
-        : ''
-    },
     selecttedDay() {
       if (this.today == format(new Date(), 'dd.MM.yyyy')) {
         return 'СЕГОДНЯ'
@@ -119,15 +100,9 @@ export default {
     },
   },
   methods: {
-    showDate() {
-      let date = new Date()
-      console.log('date: ', date)
-    },
     selectDate(data) {
-      console.log('i recieve data:', data)
       this.today = format(data.date, 'dd.MM.yyyy', { locale: ru })
       this.isCalendarShowed = false
-      console.log('today', this.today)
     },
   },
   mounted() {
