@@ -17,6 +17,7 @@
     </div>
     <div v-else>
       <appAddProduct type="string" />
+      {{ foodStore.eatenFoods }}
     </div>
     <!-- <v-text-field
       slot="activator"

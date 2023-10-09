@@ -1,23 +1,3 @@
-<!-- <template>
-  <v-sheet class="position-relative" min-height="200">
-    <div
-      class="position-absolute d-flex align-center justify-center w-100 h-100"
-    >
-      <v-btn prepend-icon="mdi-plus-circle" class="rounded-pill"
-        >Add product</v-btn
-      >
-    </div>
-    <v-fade-transition hide-on-leave>
-        <v-card
-        v-if="dialog"
-        apend-icon="$close"
-        class="mx-auto"
-        elevation="16"
-        max-width="500"
-        title=""></v-card>
-    </v-fade-transition>
-  </v-sheet>
-</template> -->
 <template>
   <v-dialog v-model="dialog" persistent width="80%">
     <template v-slot:activator="{ props }">
@@ -52,38 +32,50 @@
                 <appCalendar @selecttedDate="selectDate" />
               </v-col>
             </v-row>
-            <v-row class="align-center justify-space-between">
-              <v-col cols="4"><h3>Type of meal:</h3> </v-col>
-              <v-col cols="8">
-                <v-select
-                  :rules="typeMealRule"
-                  variant="underlined"
-                  :items="['Breakfast', 'Lunch', 'Snack', 'Dinner']"
-                  label="Type*"
-                  required
-                ></v-select>
-              </v-col>
-            </v-row>
-            <v-row class="justify-center"><h3>Что съели?</h3></v-row>
-            <v-row class="justify-center">
-              <v-col cols="12">
-                <appSearchFood @selecttedFood="selectFood" />
-              </v-col>
-            </v-row>
-            <v-row
-              v-if="isSelectMass"
-              class="align-center justify-space-between"
-            >
-              <v-col cols="4"><h3>Mass, g:</h3> </v-col>
-              <v-col cols="8">
-                <v-text-field
-                  label="gramm*"
-                  :rules="massRule"
-                  required
-                  variant="underlined"
-                ></v-text-field>
-              </v-col>
-            </v-row>
+            <v-form ref="form">
+              <v-row class="align-center justify-space-between">
+                <v-col cols="4"><h3>Type of meal:</h3> </v-col>
+                <v-col cols="8">
+                  <v-select
+                    :rules="requiredRule"
+                    v-model="addingFood.type"
+                    variant="underlined"
+                    :items="['Breakfast', 'Lunch', 'Snack', 'Dinner']"
+                    label="Type*"
+                    required
+                    @update:modelValue="isSelectType = true"
+                  ></v-select>
+                </v-col>
+              </v-row>
+              <v-row class="justify-center" v-if="isSelectType"
+                ><h3>Что съели?</h3></v-row
+              >
+              <v-row class="justify-center" v-if="isSelectType">
+                <v-col cols="12">
+                  <appSearchFood
+                    @selecttedFood="selectFood"
+                    required
+                    :rules="requiredRule"
+                  />
+                </v-col>
+              </v-row>
+              <v-row
+                v-if="isSelectMass"
+                class="align-center justify-space-between"
+              >
+                <v-col cols="4"><h3>Mass, g:</h3> </v-col>
+                <v-col cols="8">
+                  <v-text-field
+                    label="gramm*"
+                    :rules="massRule"
+                    required
+                    variant="underlined"
+                    placeholder="150"
+                    @blur="addMass"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-form>
           </v-row>
         </v-container>
       </v-card-text>
@@ -96,11 +88,7 @@
         >
           Close
         </v-btn>
-        <v-btn
-          color="blue-darken-1"
-          variant="text"
-          @click="dialog = false"
-        >
+        <v-btn color="blue-darken-1" variant="text" @click="validate">
           Save
         </v-btn>
       </v-card-actions>
@@ -110,7 +98,10 @@
 <script>
 import appCalendar from '@/components/Calendar.vue'
 import appSearchFood from '@/components/SearchFood.vue'
+import { useFoodStore } from '@/stores/foodBase.js'
 
+import format from 'date-fns/format'
+import { es, ru } from 'date-fns/locale'
 export default {
   name: 'appAddProduct',
   components: {
@@ -118,20 +109,25 @@ export default {
     appSearchFood,
   },
   data: () => ({
+    foodStore: useFoodStore(),
     dialog: false,
     isCalendar: false,
-    due: null,
     isSelectMass: false,
-    selecttedFood: {
+    isSelectType: false,
+    addingFood: {
       type: '', //breakfast/lunch/dinner/fastfood
-      date: '', //15.09.2023
+      date: format(new Date(), 'dd.MM.yyyy', {
+        locale: ru,
+      }), //15.09.2023
       food: {}, //алыча
       mass: 0, //150 gramm
     },
-    typeMealRule: [value => !!value || 'Required'],
+    requiredRule: [value => !!value || 'Required'],
+
     massRule: [
       value => !!value || 'Requred',
       value => !isNaN(value) || 'Must be number',
+      value => value > 0 || 'Must be more than zero',
     ],
   }),
   props: {
@@ -139,6 +135,11 @@ export default {
       type: String,
       required: false,
       default: 'plus', //or string
+    },
+  },
+  computed: {
+    isValid() {
+      return this.addingFood.type && this.addingFood.mass
     },
   },
   methods: {
@@ -150,11 +151,25 @@ export default {
     },
     selectDate(date) {
       console.log(date)
+      this.addingFood.date = format(date, 'dd.MM.yyyy', {
+        locale: ru,
+      })
     },
     selectFood(food) {
       this.isSelectMass = true
-      this.selecttedFood.food = food
-      console.log(this.selecttedFood)
+      this.addingFood.food = food
+      console.log(this.addingFood)
+    },
+    addMass(e) {
+      this.addingFood.mass = +e.target.value
+    },
+    async validate() {
+      const { valid } = await this.$refs.form.validate()
+
+      if (valid && this.addingFood.mass) {
+        this.foodStore.eatenFoods.push(this.addingFood)
+        this.dialog = false
+      }
     },
   },
 }

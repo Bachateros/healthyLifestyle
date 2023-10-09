@@ -31,13 +31,10 @@ export default {
   methods: {
     selectDate(e) {
       if (e.target.textContent === 'Cancel') {
-        // console.log(e.target.textContent)
         this.isCalendar = false
       } else if (e.target.textContent === 'OK') {
         this.isCalendar = false
         this.$emit('selecttedDate', this.date)
-        // console.log(e.target.textContent)
-        // console.log(this.date)
       }
     },
   },
