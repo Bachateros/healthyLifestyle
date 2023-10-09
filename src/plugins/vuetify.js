@@ -7,11 +7,19 @@ import { ru, en } from 'vuetify/locale'
 
 // Vuetify
 import { createVuetify } from 'vuetify'
+import {
+  VDataTable,
+  VDataTableServer,
+  VDataTableVirtual,
+} from 'vuetify/labs/VDataTable'
 
 export default createVuetify(
   {
     components: {
       VDatePicker,
+      VDataTable,
+      VDataTableServer,
+      VDataTableVirtual,
     },
     locale: {
       locale: 'ru',
