@@ -1,7 +1,7 @@
 <template>
   <v-text-field
     prepend-icon="mdi mdi-calendar"
-    v-if="!isCalendar"
+    v-if="!isCalendar && typeInput === 'input'"
     @click="isCalendar = true"
     :value="dateCute"
     required
@@ -22,6 +22,13 @@ import format from 'date-fns/format'
 import { es, ru } from 'date-fns/locale'
 export default {
   name: 'appCalendar',
+  props: {
+    typeInput: {
+      type: String,
+      required: false,
+      default: 'calendar',
+    },
+  },
   data() {
     return {
       date: new Date(),
@@ -30,11 +37,12 @@ export default {
   },
   methods: {
     selectDate(e) {
-      if (e.target.textContent === 'Cancel') {
+      if (
+        e.target.textContent === 'Cancel' ||
+        e.target.textContent === 'OK'
+      ) {
         this.isCalendar = false
-      } else if (e.target.textContent === 'OK') {
-        this.isCalendar = false
-        this.$emit('selecttedDate', this.date)
+        this.$emit('selecttedDate', this.$data)
       }
     },
   },

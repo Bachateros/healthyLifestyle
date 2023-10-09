@@ -29,7 +29,10 @@
             <v-row class="align-center justify-space-between">
               <v-col cols="4"><h3>Date:</h3> </v-col>
               <v-col cols="8">
-                <appCalendar @selecttedDate="selectDate" />
+                <appCalendar
+                  @selecttedDate="selectDate"
+                  typeInput="input"
+                />
               </v-col>
             </v-row>
             <v-form ref="form">
@@ -149,9 +152,8 @@ export default {
     closeCalendar() {
       this.isCalendar = false
     },
-    selectDate(date) {
-      console.log(date)
-      this.addingFood.date = format(date, 'dd.MM.yyyy', {
+    selectDate(data) {
+      this.addingFood.date = format(data.date, 'dd.MM.yyyy', {
         locale: ru,
       })
     },

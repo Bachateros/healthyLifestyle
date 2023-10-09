@@ -2,31 +2,28 @@
   <appHeader />
   <v-content v-if="user.isUser" class="mainPage">
     <h1 class="text-center">Доброго времени суток!</h1>
-    <p>
+    <div>
       <v-btn
         variant="flat"
         class="text-decoration-underline px-2"
         background-color="grey"
-        @click="chooseDate"
-        >Сегодня</v-btn
-      ><span v-if="isEatenSmth">вы съели:</span>
+        @click="isCalendarShowed = true"
+        >{{ selecttedDay }}</v-btn
+      >
+      <div class="calendar" v-if="isCalendarShowed">
+        <appCalendar @selecttedDate="selectDate" />
+      </div>
+      <span v-if="isEatenSmth">вы съели:</span>
       <span v-else>вы еще ничего не съели.</span>
-    </p>
+    </div>
     <div v-if="isEatenSmth">
       <appMealTable :foods="getTodayEatenFood" />
     </div>
     <div v-else>
       <appAddProduct type="string" />
-      {{ foodStore.eatenFoods }}
     </div>
-    <!-- <v-text-field
-      slot="activator"
-      label="Date due"
-      prepend-icon="date_range"
-      @click="openCalendar"
-    >
-    </v-text-field> -->
-    <div class="d-flex justify-center">
+
+    <!-- <div class="d-flex justify-center">
       <v-locale-provider locale="ru">
         <v-date-picker
           v-if="isCalendarShowed && false"
@@ -35,12 +32,15 @@
           v-model="date"
         ></v-date-picker>
       </v-locale-provider>
-    </div>
-    <p v-if="isEatenSmth">
-      Что-то еще съели?[Кнопка выбора продукта]<appAddProduct
-        type="string"
-      />
-    </p>
+    </div> -->
+    <v-row
+      v-if="isEatenSmth"
+      class="my-4 d-flex flex-column align-center"
+    >
+      <!-- d-flex flex-column align-end justify-end  -->
+      <v-row class="justify-end mb-n1">Что-то еще съели?</v-row>
+      <v-row><appAddProduct type="string" /></v-row>
+    </v-row>
     {{ today }}
   </v-content>
   <v-content v-else>
@@ -73,32 +73,41 @@ import { es, ru } from 'date-fns/locale'
 import appHeader from '@/components/Header.vue'
 import appAddProduct from '@/components/AddProduct.vue'
 import appMealTable from '@/components/MealTable.vue'
-
+import appCalendar from '@/components/Calendar.vue'
 export default {
   name: 'appGlobalFeed',
   components: {
     appHeader,
     appAddProduct,
     appMealTable,
+    appCalendar,
   },
   data() {
     return {
       foodStore: useFoodStore(),
       user: useUserInformation(),
       todayEatenFood: [],
-      date: null,
-      isCalendarShowed: true,
+      today: format(new Date(), 'dd.MM.yyyy', { locale: ru }),
+      isCalendarShowed: false,
     }
   },
   computed: {
     dateCute() {
-      return this.date
-        ? format(this.date, 'dd MMM yyyy', { locale: ru })
+      return this.today
+        ? format(this.today, 'dd MMM yyyy', { locale: ru })
         : ''
     },
-    today() {
-      const now = new Date()
-      return format(now, 'dd.MM.yyyy', { locale: ru })
+    selecttedDay() {
+      if (this.today == format(new Date(), 'dd.MM.yyyy')) {
+        return 'СЕГОДНЯ'
+      } else if (
+        new Date().getDate() - this.today.slice(0, 2) ===
+        1
+      ) {
+        return 'ВЧЕРА'
+      } else {
+        return this.today
+      }
     },
     getTodayEatenFood() {
       return this.foodStore.eatenFoods.filter(
@@ -114,11 +123,11 @@ export default {
       let date = new Date()
       console.log('date: ', date)
     },
-    openCalendar() {
-      this.isCalendarShowed = true
-    },
-    chooseDate() {
-      this.isCalendarShowed = true
+    selectDate(data) {
+      console.log('i recieve data:', data)
+      this.today = format(data.date, 'dd.MM.yyyy', { locale: ru })
+      this.isCalendarShowed = false
+      console.log('today', this.today)
     },
   },
   mounted() {
@@ -127,4 +136,10 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.calendar {
+  position: absolute;
+  top: 50px;
+  max-height: 600px;
+}
+</style>
