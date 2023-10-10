@@ -14,6 +14,7 @@
     locale="ru"
     v-model="date"
     @click="selectDate"
+    :max="new Date()"
     v-else
   ></v-date-picker>
 </template>
