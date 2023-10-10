@@ -6,6 +6,7 @@
     :group-by="groupBy"
     item-value="food.name"
     class="elevation-1"
+    hover
   >
     <template
       v-slot:group-header="{
@@ -59,21 +60,21 @@
       </tr>
     </tbody> -->
     <tfoot>
-      <tr>
-        <th width="31.5%">Total:</th>
-        <th width="14%" class="text-center">
+      <tr class="footer">
+        <th class="footer__total">Total:</th>
+        <th class="text-center footer__calories">
           {{ getTotalSmth('calories') }}
         </th>
-        <th width="17%" class="text-center">
+        <th class="text-center footer__proteins">
           {{ getTotalSmth('proteins') }}
         </th>
-        <th width="9%" class="text-center">
+        <th class="text-center footer__fats">
           {{ getTotalSmth('fats') }}
         </th>
-        <th width="16.5%" class="text-center">
+        <th class="text-center footer__carbons">
           {{ getTotalSmth('carbs') }}
         </th>
-        <th width="20%"></th>
+        <th class="footer__space"></th>
       </tr>
     </tfoot>
   </v-table>
@@ -94,6 +95,7 @@ export default {
         {
           title: 'Dessert (100g serving)',
           align: 'start',
+          width: '295px',
           sortable: false,
           key: 'food.name',
         },
@@ -101,19 +103,33 @@ export default {
           title: 'Calories (kk)',
           key: 'food.calories',
           align: 'center',
+          width: '200px',
         },
         {
           title: 'Protein (g)',
           key: 'food.proteins',
           align: 'center',
+          width: '200px',
         },
-        { title: 'Fat (g)', key: 'food.fats', align: 'center' },
-        { title: 'Carbs (g)', key: 'food.carbs', align: 'center' },
+        {
+          title: 'Fat (g)',
+          key: 'food.fats',
+          align: 'center',
+          width: '200px',
+        },
+
+        {
+          title: 'Carbs (g)',
+          key: 'food.carbs',
+          align: 'center',
+          width: '200px',
+        },
         { title: 'Mass (g)', key: 'mass', align: 'center' },
       ],
       groupBy: [
         {
           key: 'type',
+          width: '200px',
           order: 'asc',
         },
       ],
@@ -157,10 +173,7 @@ export default {
         .toFixed(2)
     },
   },
-  mounted() {
-    console.log(this.foods)
-    console.log(this.modifiedFoods)
-  },
+  mounted() {},
   watch: {
     foods() {
       this.modifiedFoods = this.modifyFoods()
@@ -169,4 +182,22 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.footer {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 8fr repeat(4, 200px) 3fr;
+  &__total {
+  }
+  &__calories {
+  }
+  &__proteins {
+  }
+  &__fats {
+  }
+  &__carbons {
+  }
+  &__space {
+  }
+}
+</style>
