@@ -2,7 +2,7 @@
   <v-data-table-virtual
     :headers="headers"
     :footer-props="'vaaa'"
-    :items="foods"
+    :items="modifiedFoods"
     :group-by="groupBy"
     item-value="food.name"
     class="elevation-1"
@@ -60,17 +60,17 @@
     </tbody> -->
     <tfoot>
       <tr>
-        <th width="28%">Total:</th>
-        <th width="12.5%" class="text-center">
+        <th width="31.5%">Total:</th>
+        <th width="14%" class="text-center">
           {{ getTotalSmth('calories') }}
         </th>
-        <th width="12.5%" class="text-center">
+        <th width="17%" class="text-center">
           {{ getTotalSmth('proteins') }}
         </th>
-        <th width="12.5%" class="text-center">
+        <th width="9%" class="text-center">
           {{ getTotalSmth('fats') }}
         </th>
-        <th width="12.5%" class="text-center">
+        <th width="16.5%" class="text-center">
           {{ getTotalSmth('carbs') }}
         </th>
         <th width="20%"></th>
@@ -89,7 +89,7 @@ export default {
   },
   data() {
     return {
-      // modifiedFoods: modifyFoods(),
+      modifiedFoods: this.modifyFoods(),
       headers: [
         {
           title: 'Dessert (100g serving)',
@@ -97,11 +97,19 @@ export default {
           sortable: false,
           key: 'food.name',
         },
-        { title: 'Calories', key: 'food.calories' },
-        { title: 'Fat (g)', key: 'food.fats' },
-        { title: 'Carbs (g)', key: 'food.carbs' },
-        { title: 'Protein (g)', key: 'food.proteins' },
-        { title: 'Mass (%)', key: 'mass' },
+        {
+          title: 'Calories (kk)',
+          key: 'food.calories',
+          align: 'center',
+        },
+        {
+          title: 'Protein (g)',
+          key: 'food.proteins',
+          align: 'center',
+        },
+        { title: 'Fat (g)', key: 'food.fats', align: 'center' },
+        { title: 'Carbs (g)', key: 'food.carbs', align: 'center' },
+        { title: 'Mass (g)', key: 'mass', align: 'center' },
       ],
       groupBy: [
         {
@@ -112,11 +120,22 @@ export default {
     }
   },
   methods: {
-    // modifyFoods(){
-    //   return this.foods.map(item => {
-    //     return this.
-    //   })
-    // },
+    modifyFoods() {
+      return this.foods.map(item => {
+        let newItem = JSON.parse(JSON.stringify(item)) //глубокое копирование
+
+        for (const key in newItem.food) {
+          if (key != 'name') {
+            newItem.food[key] = this.getValue(
+              this.getNumber(newItem.food[key]),
+              newItem.mass
+            )
+          }
+        }
+
+        return newItem
+      })
+    },
     getNumber(string) {
       const spaceChar = string.indexOf(' ')
       return string
@@ -140,6 +159,12 @@ export default {
   },
   mounted() {
     console.log(this.foods)
+    console.log(this.modifiedFoods)
+  },
+  watch: {
+    foods() {
+      this.modifiedFoods = this.modifyFoods()
+    },
   },
 }
 </script>
