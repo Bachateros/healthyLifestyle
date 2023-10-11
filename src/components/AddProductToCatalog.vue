@@ -1,0 +1,103 @@
+<template>
+  <v-dialog v-model="dialog" max-width="550px">
+    <template v-slot:activator="{ props }">
+      <v-btn color="indigo" dark class="mb-2" v-bind="props">
+        New Item
+      </v-btn>
+    </template>
+    <v-card>
+      <v-card-title>
+        <span class="text-h5">New Item</span>
+      </v-card-title>
+
+      <v-card-text>
+        <v-container>
+          <v-row>
+            <v-col cols="12" sm="6" md="6">
+              <v-text-field
+                v-model="editedItem.name"
+                label="Product name"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="6" md="6">
+              <v-text-field
+                v-model="editedItem.calories"
+                label="Calories (kk)"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="6" md="4">
+              <v-text-field
+                v-model="editedItem.protein"
+                label="Protein (g)"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="6" md="4">
+              <v-text-field
+                v-model="editedItem.fat"
+                label="Fat (g)"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="6" md="4">
+              <v-text-field
+                v-model="editedItem.carbs"
+                label="Carbs (g)"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-card-text>
+
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="blue-darken-1" variant="text" @click="close">
+          Cancel
+        </v-btn>
+        <v-btn color="blue-darken-1" variant="text" @click="save">
+          Save
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+</template>
+<script>
+import { useFoodStore } from '@/stores/foodBase.js'
+export default {
+  name: 'appAddProductToCatalog',
+  data: () => ({
+    dialog: false,
+    foodBase: useFoodStore(),
+    editedItem: {
+      name: '',
+      calories: 0,
+      fat: 0,
+      carbs: 0,
+      protein: 0,
+    },
+  }),
+
+  watch: {
+    dialog(val) {
+      val || this.close()
+    },
+  },
+
+  methods: {
+    close() {
+      this.dialog = false
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedIndex = -1
+      })
+    },
+
+    save() {
+      this.foodBase.addedFoods.push(this.editedItem)
+      this.foodBase.updateAddedFoodBase()
+      this.close()
+    },
+  },
+  mounted() {
+    console.log(this.foodBase.foods.length)
+  },
+}
+</script>

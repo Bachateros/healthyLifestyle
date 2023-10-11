@@ -14,7 +14,7 @@
         color="indigo"
         v-bind="props"
         prepend-icon="mdi-plus-circle"
-        class="rounded-pill"
+        class="rounded-pill bigger"
       >
         Add product
       </v-btn>
@@ -190,5 +190,6 @@ export default {
 <style scoped lang="scss">
 .bigger {
   font-size: 1.3em;
+  height: 50px;
 }
 </style>

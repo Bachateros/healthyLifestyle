@@ -18,9 +18,6 @@
     </div>
     <div v-if="isEatenSmth">
       <appMealTable :foods="getTodayEatenFood" />
-      <p>
-        <appAddProduct />
-      </p>
     </div>
     <div v-else>
       <appAddProduct type="string" />
@@ -107,9 +104,6 @@ export default {
       this.today = format(data.date, 'dd.MM.yyyy', { locale: ru })
       this.isCalendarShowed = false
     },
-  },
-  mounted() {
-    this.foodStore.getFood()
   },
 }
 </script>

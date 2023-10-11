@@ -7,7 +7,16 @@
 </template>
 
 <script>
+import { useFoodStore } from '@/stores/foodBase'
 export default {
   name: 'App',
+  data() {
+    return {
+      foodStore: useFoodStore(),
+    }
+  },
+  mounted() {
+    this.foodStore.getFood()
+  },
 }
 </script>

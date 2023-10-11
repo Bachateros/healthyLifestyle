@@ -14,11 +14,18 @@ const getEatenFoodBase = () => {
     return JSON.parse(eatenFoodInLocalStorage)
   } else return []
 }
-
+const getAddedFoodBase = () => {
+  const addedFoodInLocalStorage =
+    window.localStorage.getItem('addedFood')
+  if (addedFoodInLocalStorage) {
+    return JSON.parse(addedFoodInLocalStorage)
+  } else return []
+}
 export const useFoodStore = defineStore('foodStore', {
   state: () => ({
     foods: [],
     eatenFoods: getEatenFoodBase(),
+    addedFoods: getAddedFoodBase(),
   }),
   getters: {},
   actions: {
@@ -26,13 +33,20 @@ export const useFoodStore = defineStore('foodStore', {
       const url = 'http://localhost:3001' //Обращение к собственному серверу
       const res = await fetch(url)
       const data = await res.json()
-      this.foods = data
+      this.foods = await data.concat(this.$state.addedFoods)
     },
     updateEatenBase() {
       window.localStorage.setItem(
         'eatenFood',
         JSON.stringify(this.$state.eatenFoods)
       )
+    },
+    updateAddedFoodBase() {
+      window.localStorage.setItem(
+        'addedFood',
+        JSON.stringify(this.$state.addedFoods)
+      )
+      this.getFood()
     },
   },
 })

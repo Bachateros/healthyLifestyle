@@ -21,14 +21,21 @@
           item.name
         }}</v-list-item-title>
       </v-list-item>
+      <v-list-item>
+        <v-list-item-title @click="selectFood(item)"
+          ><appAddProductToCatalog
+        /></v-list-item-title>
+      </v-list-item>
     </v-list>
   </v-menu>
 </template>
 
 <script>
 import { useFoodStore } from '@/stores/foodBase.js'
+import appAddProductToCatalog from '@/components/AddProductToCatalog.vue'
 export default {
   name: 'appSearchFood',
+  components: { appAddProductToCatalog },
   data() {
     return {
       search: '',
@@ -38,7 +45,9 @@ export default {
   methods: {
     selectFood(item) {
       if (item.name != 'Нет совпадений') this.search = item.name
-      else this.search = ''
+      else {
+        this.search = ''
+      }
       this.$emit('selecttedFood', item)
     },
     log(e) {
