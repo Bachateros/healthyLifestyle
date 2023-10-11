@@ -1,13 +1,14 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="desserts"
+    :items="foodBase.addedFoods"
     :sort-by="[{ key: 'calories', order: 'asc' }]"
     class="elevation-1"
+    hover
   >
     <template v-slot:top>
       <v-toolbar flat>
-        <v-toolbar-title>My CRUD</v-toolbar-title>
+        <v-toolbar-title>Added foods</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
@@ -104,10 +105,15 @@
       </v-toolbar>
     </template>
     <template v-slot:item.actions="{ item }">
-      <v-icon size="small" class="me-2" @click="editItem(item)">
+      <v-icon
+        size="small"
+        class="me-2"
+        @click="editItem(item)"
+        color="green"
+      >
         mdi-pencil
       </v-icon>
-      <v-icon size="small" @click="deleteItem(item)">
+      <v-icon size="small" @click="deleteItem(item)" color="red">
         mdi-delete
       </v-icon>
     </template>
@@ -117,10 +123,13 @@
   </v-data-table>
 </template>
 <script>
+import { useFoodStore } from '@/stores/foodBase.js'
 export default {
+  name: 'appCatalogTable',
   data: () => ({
     dialog: false,
     dialogDelete: false,
+    foodBase: useFoodStore(),
     headers: [
       {
         title: 'Dessert (100g serving)',
@@ -129,9 +138,9 @@ export default {
         key: 'name',
       },
       { title: 'Calories', key: 'calories' },
+      { title: 'Protein (g)', key: 'protein' },
       { title: 'Fat (g)', key: 'fat' },
       { title: 'Carbs (g)', key: 'carbs' },
-      { title: 'Protein (g)', key: 'protein' },
       { title: 'Actions', key: 'actions', sortable: false },
     ],
     desserts: [],
@@ -167,100 +176,22 @@ export default {
     },
   },
 
-  created() {
-    this.initialize()
-  },
-
   methods: {
-    initialize() {
-      this.desserts = [
-        {
-          name: 'Frozen Yogurt',
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-        },
-        {
-          name: 'Ice cream sandwich',
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-        },
-        {
-          name: 'Eclair',
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-        },
-        {
-          name: 'Cupcake',
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-        },
-        {
-          name: 'Gingerbread',
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-        },
-        {
-          name: 'Jelly bean',
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-        },
-        {
-          name: 'Lollipop',
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-        },
-        {
-          name: 'Honeycomb',
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-        },
-        {
-          name: 'Donut',
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-        },
-        {
-          name: 'KitKat',
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-        },
-      ]
-    },
-
     editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item)
-      this.editedItem = Object.assign({}, item)
+      this.editedIndex = this.foodBase.addedFoods.indexOf(item.raw)
+      this.editedItem = Object.assign({}, item.raw)
       this.dialog = true
     },
 
     deleteItem(item) {
-      this.editedIndex = this.desserts.indexOf(item)
-      this.editedItem = Object.assign({}, item)
+      this.editedIndex = this.foodBase.addedFoods.indexOf(item.raw)
+      this.editedItem = Object.assign({}, item.raw)
       this.dialogDelete = true
     },
 
     deleteItemConfirm() {
-      this.desserts.splice(this.editedIndex, 1)
+      this.foodBase.addedFoods.splice(this.editedIndex, 1)
+      this.foodBase.updateAddedFoodBase()
       this.closeDelete()
     },
 
@@ -283,12 +214,13 @@ export default {
     save() {
       if (this.editedIndex > -1) {
         Object.assign(
-          this.desserts[this.editedIndex],
+          this.foodBase.addedFoods[this.editedIndex],
           this.editedItem
         )
       } else {
-        this.desserts.push(this.editedItem)
+        this.foodBase.addedFoods.push(this.editedItem)
       }
+      this.foodBase.updateAddedFoodBase()
       this.close()
     },
   },

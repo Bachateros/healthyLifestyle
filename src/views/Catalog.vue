@@ -6,18 +6,21 @@
       <appAddProductToCatalog />
     </div>
     <appSearchFood />
+    <appCatalogTable class="mt-3" />
   </div>
 </template>
 <script>
 import appHeader from '@/components/Header.vue'
 import appAddProductToCatalog from '@/components/AddProductToCatalog.vue'
 import appSearchFood from '@/components/SearchFood.vue'
+import appCatalogTable from '@/components/CatalogTable.vue'
 export default {
   name: 'appCatalog',
   components: {
     appHeader,
     appAddProductToCatalog,
     appSearchFood,
+    appCatalogTable,
   },
 }
 </script>
