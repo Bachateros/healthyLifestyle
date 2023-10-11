@@ -148,16 +148,16 @@ export default {
     editedItem: {
       name: '',
       calories: 0,
-      fat: 0,
+      fast: 0,
       carbs: 0,
-      protein: 0,
+      proteins: 0,
     },
     defaultItem: {
       name: '',
       calories: 0,
-      fat: 0,
+      fats: 0,
       carbs: 0,
-      protein: 0,
+      proteins: 0,
     },
   }),
 

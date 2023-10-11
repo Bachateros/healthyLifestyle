@@ -198,11 +198,13 @@ export default {
       })
     },
     getNumber(string) {
-      const spaceChar = string.indexOf(' ')
-      return string
-        .slice(0, spaceChar) //вычленить цифры
-        .replace(',', '.')
-        .slice(0)
+      if (isNaN(string)) {
+        const spaceChar = string.indexOf(' ')
+        return string
+          .slice(0, spaceChar) //вычленить цифры
+          .replace(',', '.')
+          .slice(0)
+      } else return +string
     },
     getValue(smth, mass) {
       return +((smth * mass) / 100).toFixed(2)
@@ -210,6 +212,7 @@ export default {
     getTotalSmth(smth) {
       return this.modifiedFoods
         .reduce((total, item) => {
+          console.log(smth, item.food[smth])
           return (total += item.food[smth])
         }, 0)
         .toFixed(2)
