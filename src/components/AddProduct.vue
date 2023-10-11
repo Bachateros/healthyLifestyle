@@ -127,7 +127,6 @@ export default {
   data: () => ({
     foodStore: useFoodStore(),
     dialog: false,
-    // isUnderstandProps: this.$props.typeOfMeal,
     isCalendar: false,
     isSelectMass: false,
     isSelectType: false,
@@ -185,7 +184,6 @@ export default {
   mounted() {
     this.addingFood.type = this.$props.typeOfMeal
     this.isSelectType = !!this.addingFood.type
-    console.log(this.$props.typeOfMeal)
   },
 }
 </script>
