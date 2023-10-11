@@ -17,7 +17,7 @@
       }"
     >
       <tr>
-        <td :colspan="columns.length">
+        <td :colspan="columns.length - 1">
           <VBtn
             size="small"
             variant="text"
@@ -25,6 +25,15 @@
             @click="toggleGroup(item)"
           ></VBtn>
           {{ item.value }}
+        </td>
+        <td :colspan="1" class="text-center">
+          <!-- <VBtn
+            size="small"
+            variant="text"
+            :icon="isGroupOpen(item) ? '$expand' : '$next'"
+            @click="toggleGroup(item)"
+          ></VBtn> -->
+          <appAddProduct :typeOfMeal="item.value" />
         </td>
       </tr>
     </template>
@@ -80,8 +89,12 @@
   </v-table>
 </template>
 <script>
+import appAddProduct from '@/components/addProduct.vue'
 export default {
   name: 'appMealTable',
+  components: {
+    appAddProduct,
+  },
   props: {
     foods: {
       type: Array,

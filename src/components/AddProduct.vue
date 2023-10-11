@@ -6,7 +6,7 @@
         color="indigo"
         v-bind="props"
         prepend-icon="mdi-plus-circle"
-        class="rounded-pill"
+        class="rounded-pill bigger"
         variant="text"
       />
       <v-btn
@@ -41,6 +41,7 @@
                 <v-col cols="8">
                   <v-select
                     :rules="requiredRule"
+                    :value="typeOfMeal"
                     v-model="addingFood.type"
                     variant="underlined"
                     :items="['Breakfast', 'Lunch', 'Snack', 'Dinner']"
@@ -111,9 +112,22 @@ export default {
     appCalendar,
     appSearchFood,
   },
+  props: {
+    type: {
+      type: String,
+      required: false,
+      default: 'plus', //or string
+    },
+    typeOfMeal: {
+      type: String,
+      required: false,
+      default: '',
+    },
+  },
   data: () => ({
     foodStore: useFoodStore(),
     dialog: false,
+    // isUnderstandProps: this.$props.typeOfMeal,
     isCalendar: false,
     isSelectMass: false,
     isSelectType: false,
@@ -133,13 +147,6 @@ export default {
       value => value > 0 || 'Must be more than zero',
     ],
   }),
-  props: {
-    type: {
-      type: String,
-      required: false,
-      default: 'plus', //or string
-    },
-  },
   computed: {
     isValid() {
       return this.addingFood.type && this.addingFood.mass
@@ -175,5 +182,15 @@ export default {
       }
     },
   },
+  mounted() {
+    this.addingFood.type = this.$props.typeOfMeal
+    this.isSelectType = !!this.addingFood.type
+    console.log(this.$props.typeOfMeal)
+  },
 }
 </script>
+<style scoped lang="scss">
+.bigger {
+  font-size: 1.3em;
+}
+</style>
