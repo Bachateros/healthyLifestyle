@@ -15,7 +15,7 @@
     :max="new Date()"
   ></v-date-picker> -->
   <!-- <Bar id="my-chart-id" :options="chartOptions" :data="chartData" /> -->
-  <div>
+  <div class="position:realtive">
     <v-btn
       variant="flat"
       class="text-decoration-underline px-2"
@@ -181,4 +181,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.calendar {
+  position: absolute;
+}
+</style>

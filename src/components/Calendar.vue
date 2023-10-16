@@ -9,16 +9,17 @@
     variant="underlined"
     persistent-hint
   />
-  <v-date-picker
-    class="calendar"
-    locale="ru"
-    title
-    v-model="date"
-    @click="selectDate"
-    :max="new Date()"
-    :min="min"
-    v-else
-  ></v-date-picker>
+  <div v-else>
+    <v-date-picker
+      class="calendar"
+      locale="ru"
+      title
+      v-model="date"
+      @click="selectDate"
+      :max="new Date()"
+      :min="min"
+    ></v-date-picker>
+  </div>
 </template>
 <script>
 import format from 'date-fns/format'
@@ -70,10 +71,7 @@ export default {
 <style lang="scss" scoped>
 .calendar {
   position: relative;
-  padding: 10px;
+  padding: 5px;
   z-index: 100;
-  box-shadow: -3px -3px 5px 5px solid;
-  top: 10px;
-  width: 100px;
 }
 </style>
