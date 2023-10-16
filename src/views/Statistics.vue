@@ -15,7 +15,7 @@
     :max="new Date()"
   ></v-date-picker> -->
   <!-- <Bar id="my-chart-id" :options="chartOptions" :data="chartData" /> -->
-  <div class="position:realtive">
+  <div>
     <v-btn
       variant="flat"
       class="text-decoration-underline px-2"
@@ -38,7 +38,7 @@
       <appCalendar @selecttedDate="selectEndDate" :min="startDate" />
     </div>
   </div>
-  {{ startDate }}
+  {{ getNiceDate(startDate) }}
   {{ endDate }}
   {{ user.userData }}
   <apexchart
@@ -153,12 +153,15 @@ export default {
   },
   methods: {
     selectStartDate(data) {
-      this.startDate = format(data.date, 'dd.MM.yyyy', { locale: ru })
+      this.startDate = data.date
       this.isStartCalendarShowed = false
     },
     selectEndDate(data) {
       this.endDate = format(data.date, 'dd.MM.yyyy', { locale: ru })
       this.isEndCalendarShowed = false
+    },
+    getNiceDate(date) {
+      if (date) return format(date, 'dd.MM.yyyy', { locale: ru })
     },
   },
   computed: {

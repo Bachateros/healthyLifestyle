@@ -33,7 +33,7 @@ export default {
       default: 'calendar',
     },
     min: {
-      type: String,
+      type: Date,
       required: false,
       default: new Date(1980, 1, 1),
     },
