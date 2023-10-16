@@ -27,7 +27,10 @@ export const useFoodStore = defineStore('foodStore', {
     eatenFoods: getEatenFoodBase(),
     addedFoods: getAddedFoodBase(),
   }),
-  getters: {},
+  getters: {
+    sortedByDataEatenFoods: state =>
+      state.eatenFoods.sort((a, b) => (a.date > b.date ? 1 : -1)),
+  },
   actions: {
     async getFood() {
       const url = 'http://localhost:3001' //Обращение к собственному серверу
