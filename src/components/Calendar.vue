@@ -12,9 +12,11 @@
   <v-date-picker
     class="calendar"
     locale="ru"
+    title
     v-model="date"
     @click="selectDate"
     :max="new Date()"
+    :min="min"
     v-else
   ></v-date-picker>
 </template>
@@ -28,6 +30,11 @@ export default {
       type: String,
       required: false,
       default: 'calendar',
+    },
+    min: {
+      type: String,
+      required: false,
+      default: new Date(1980, 1, 1),
     },
   },
   data() {

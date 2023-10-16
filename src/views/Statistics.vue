@@ -29,6 +29,7 @@
   </div>
   {{ today }}
   {{ foodStore.eatenFoods.map(el => el.mass) }}
+  {{ user.userData }}
   <apexchart
     type="line"
     height="350"
@@ -38,29 +39,29 @@
   <!-- <Line :options="chartOptions" :data="chartData" /> -->
 </template>
 <script>
-import { Bar, Line } from 'vue-chartjs'
-import {
-  Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-} from 'chart.js'
+// import { Bar, Line } from 'vue-chartjs'
+// import {
+//   Chart as ChartJS,
+//   Title,
+//   Tooltip,
+//   Legend,
+//   BarElement,
+//   CategoryScale,
+//   LinearScale,
+//   PointElement,
+//   LineElement,
+// } from 'chart.js'
 
-ChartJS.register(
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement
-)
+// ChartJS.register(
+//   Title,
+//   Tooltip,
+//   Legend,
+//   BarElement,
+//   CategoryScale,
+//   LinearScale,
+//   PointElement,
+//   LineElement
+// )
 import format from 'date-fns/format'
 import { es, ru } from 'date-fns/locale'
 
@@ -68,23 +69,25 @@ import appHeader from '@/components/Header.vue'
 import appCalendar from '@/components/Calendar.vue'
 
 import { useFoodStore } from '@/stores/foodBase'
+import { useUserInformation } from '@/stores/user'
 
 export default {
   name: 'appStatistics',
   components: {
     appHeader,
-    Bar,
-    Line,
+    // Bar,
+    // Line,
     appCalendar,
   },
   data() {
     return {
       foodStore: useFoodStore(),
+      user: useUserInformation(),
       today: format(new Date(), 'dd.MM.yyyy', { locale: ru }),
       isCalendarShowed: false,
       series: [
         {
-          name: 'test',
+          name: 'calories',
           data: [],
         },
       ],
@@ -92,12 +95,21 @@ export default {
         chart: {
           height: 350,
           type: 'line',
+          dropShadow: {
+            enabled: true,
+            top: 10,
+            left: -10,
+            // color: '#fff',
+            opacity: 0.3,
+          },
+          // foreColor: 'inherit', //color of title
+          // background: 'indigo',
           zoom: {
             enabled: false,
           },
         },
         noData: {
-          text: 'Loading...',
+          text: 'Вы ничего не съели за этот период',
         },
         dataLabels: {
           enabled: true,
@@ -111,28 +123,21 @@ export default {
         },
         grid: {
           row: {
+            colors: ['#f2f2f2', 'transparent'],
+            opacity: 0.5,
+          },
+          column: {
             colors: ['#f3f3f3', 'transparent'],
             opacity: 0.5,
           },
         },
         xaxis: {
-          categories: ['Jan', 'Feb', 'Mar', 'Apr'],
+          categories: [],
+          min: 1,
+          max: 7,
+          range: 6,
         },
       },
-      // chartData: {
-      //   labels: ['Jan', 'Feb', 'Mar', '222', '1'],
-      //   datasets: [
-      //     {
-      //       data: [1000, 100],
-      //       backgroundColor: '#f87979',
-      //       label: 'Data one',
-      //     },
-      //   ],
-      // },
-      // chartOptions: {
-      //   responsive: true,
-      //   // maintainAspectRatio: false,
-      // },
     }
   },
   methods: {
