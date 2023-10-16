@@ -19,8 +19,11 @@
     <v-btn
       variant="flat"
       class="text-decoration-underline px-2"
+      :class="isStartCalendarShowed ? 'active' : ''"
       background-color="grey"
-      @click="isStartCalendarShowed = true"
+      @click="
+        isEndCalendarShowed ? '' : (isStartCalendarShowed = true)
+      "
       >Начало</v-btn
     >
     <div class="calendar" v-if="isStartCalendarShowed">
@@ -30,8 +33,11 @@
     <v-btn
       variant="flat"
       class="text-decoration-underline px-2"
+      :class="isEndCalendarShowed ? 'active' : ''"
       background-color="grey"
-      @click="isEndCalendarShowed = true"
+      @click="
+        isStartCalendarShowed ? '' : (isEndCalendarShowed = true)
+      "
       >Конец</v-btn
     >
     <div class="calendar" v-if="isEndCalendarShowed">
@@ -39,7 +45,7 @@
     </div>
   </div>
   {{ getNiceDate(startDate) }}
-  {{ endDate }}
+  {{ getNiceDate(endDate) }}
   {{ user.userData }}
   <apexchart
     type="line"
@@ -157,7 +163,7 @@ export default {
       this.isStartCalendarShowed = false
     },
     selectEndDate(data) {
-      this.endDate = format(data.date, 'dd.MM.yyyy', { locale: ru })
+      this.endDate = data.date
       this.isEndCalendarShowed = false
     },
     getNiceDate(date) {
@@ -187,5 +193,8 @@ export default {
 <style lang="scss" scoped>
 .calendar {
   position: absolute;
+}
+.active {
+  background: #b0b0b0;
 }
 </style>
