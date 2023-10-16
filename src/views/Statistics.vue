@@ -20,15 +20,26 @@
       variant="flat"
       class="text-decoration-underline px-2"
       background-color="grey"
-      @click="isCalendarShowed = true"
+      @click="isStartCalendarShowed = true"
       >Начало</v-btn
     >
-    <div class="calendar" v-if="isCalendarShowed">
-      <appCalendar @selecttedDate="selectDate" />
+    <div class="calendar" v-if="isStartCalendarShowed">
+      <appCalendar @selecttedDate="selectStartDate" />
+    </div>
+
+    <v-btn
+      variant="flat"
+      class="text-decoration-underline px-2"
+      background-color="grey"
+      @click="isEndCalendarShowed = true"
+      >Конец</v-btn
+    >
+    <div class="calendar" v-if="isEndCalendarShowed">
+      <appCalendar @selecttedDate="selectEndDate" :min="startDate" />
     </div>
   </div>
-  {{ today }}
-  {{ foodStore.eatenFoods.map(el => el.mass) }}
+  {{ startDate }}
+  {{ endDate }}
   {{ user.userData }}
   <apexchart
     type="line"
@@ -75,16 +86,16 @@ export default {
   name: 'appStatistics',
   components: {
     appHeader,
-    // Bar,
-    // Line,
     appCalendar,
   },
   data() {
     return {
       foodStore: useFoodStore(),
       user: useUserInformation(),
-      today: format(new Date(), 'dd.MM.yyyy', { locale: ru }),
-      isCalendarShowed: false,
+      startDate: null,
+      endDate: null,
+      isStartCalendarShowed: false,
+      isEndCalendarShowed: false,
       series: [
         {
           name: 'calories',
@@ -141,9 +152,13 @@ export default {
     }
   },
   methods: {
-    selectDate(data) {
-      this.today = format(data.date, 'dd.MM.yyyy', { locale: ru })
-      this.isCalendarShowed = false
+    selectStartDate(data) {
+      this.startDate = format(data.date, 'dd.MM.yyyy', { locale: ru })
+      this.isStartCalendarShowed = false
+    },
+    selectEndDate(data) {
+      this.endDate = format(data.date, 'dd.MM.yyyy', { locale: ru })
+      this.isEndCalendarShowed = false
     },
   },
   computed: {
