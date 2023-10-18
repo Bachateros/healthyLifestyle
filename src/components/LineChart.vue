@@ -23,18 +23,17 @@ export default {
       type: Array,
       required: true,
     },
-    // foods: {
-    //   type: Array,
-    //   required: true,
-    // },
+    foods: {
+      type: Array,
+      required: true,
+    },
   },
   data() {
     return {
       foodStore: useFoodStore(),
-      chartTitle: 'Вы ничего не съели за этот период',
       series: [
         {
-          name: 'calories',
+          name: 'Калории, кк',
           data: this.data,
         },
       ],
@@ -56,7 +55,7 @@ export default {
           },
         },
         noData: {
-          text: this.chartTitle,
+          text: 'Вы ничего не съели за этот период',
         },
         dataLabels: {
           enabled: true,
@@ -65,7 +64,7 @@ export default {
           curve: 'straight',
         },
         title: {
-          text: 'Калории за все время',
+          text: 'Калории по приемам пищи за все время',
           align: 'center',
         },
         grid: {
@@ -90,6 +89,12 @@ export default {
   watch: {
     data() {
       this.series[0].data = this.data
+      this.series[0].name = this.foods.map(el => el.food.name)
+      this.$refs.lineChart.updateOptions({
+        markers: {
+          title: 'log',
+        },
+      })
       console.log('change props data')
     },
     categories() {
@@ -97,7 +102,7 @@ export default {
 
       this.$refs.lineChart.updateOptions({
         title: {
-          text: 'Калории за выбранный период',
+          text: 'Калории по приемам пищи за выбранный период',
         },
         xaxis: {
           categories: this.categories,

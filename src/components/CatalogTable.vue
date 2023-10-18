@@ -118,7 +118,7 @@
       </v-icon>
     </template>
     <template v-slot:no-data>
-      <v-btn color="primary" @click="initialize"> Reset </v-btn>
+      Вы еще не добавляли своих продуктов
     </template>
   </v-data-table>
 </template>

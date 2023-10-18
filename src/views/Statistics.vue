@@ -32,20 +32,24 @@
       </div>
     </div>
     {{ user.userData }}
+    {{ getNeedCalories }}
     <appLineChart
       class="mt-3"
       :data="chartData"
       :categories="chartCategories"
+      :foods="chartFoods"
     />
+    <appBarChart class="mt-10" :expectedCalories="getNeedCalories" />
   </div>
 </template>
 <script>
 import format from 'date-fns/format'
-import { el, es, ru } from 'date-fns/locale'
+import { es, ru } from 'date-fns/locale'
 
 import appHeader from '@/components/Header.vue'
 import appCalendar from '@/components/Calendar.vue'
 import appLineChart from '@/components/LineChart.vue'
+import appBarChart from '@/components/BarChart.vue'
 
 import { useFoodStore } from '@/stores/foodBase'
 import { useUserInformation } from '@/stores/user'
@@ -56,6 +60,7 @@ export default {
     appHeader,
     appCalendar,
     appLineChart,
+    appBarChart,
   },
   data() {
     return {
@@ -67,6 +72,7 @@ export default {
       isEndCalendarShowed: false,
       chartData: [],
       chartCategories: [],
+      chartFoods: [],
     }
   },
   methods: {
@@ -110,14 +116,10 @@ export default {
                     locale: ru,
                   }))
         )
+      this.chartFoods = filteredArray
       this.chartData = filteredArray.map(el => el.food.calories)
       this.chartCategories = filteredArray.map(el => el.date)
     },
-    // getCaloriesByOneDay(arr){
-    //   arr.forEach(item =>{
-    //     return item.
-    //   })
-    // }
   },
   computed: {
     getChartData() {
@@ -126,12 +128,25 @@ export default {
       )
     },
     getChartCategories() {
-      return this.foodStore.sortedByDataEatenFoods.map(el => el.date)
+      return this.foodStore.sortedByDataEatenFoods.map(
+        el => el.date + `, ${el.type}`
+      )
+    },
+    getNeedCalories() {
+      return this.user.userData.sex === 'Male'
+        ? this.user.userData.weight * 10 +
+            this.user.userData.height * 6.25 -
+            this.user.userData.age * 5 +
+            5
+        : this.user.userData.weight * 10 +
+            this.user.userData.height * 6.25 -
+            this.user.userData.age * 5 -
+            161
     },
   },
   created() {
     this.chartData = this.getChartData
-    // console.log(typeof this.chartData[0])
+    console.log(typeof this.foodStore.sortedByDataEatenFoods)
     this.chartCategories = this.getChartCategories
   },
   mounted() {
