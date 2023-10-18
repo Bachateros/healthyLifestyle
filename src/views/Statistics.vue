@@ -32,7 +32,11 @@
       </div>
     </div>
     {{ user.userData }}
-    <appLineChart class="mt-3" :data="chartData" />
+    <appLineChart
+      class="mt-3"
+      :data="chartData"
+      :categories="chartCategories"
+    />
   </div>
 </template>
 <script>
@@ -62,6 +66,7 @@ export default {
       isStartCalendarShowed: false,
       isEndCalendarShowed: false,
       chartData: [],
+      chartCategories: [],
     }
   },
   methods: {
@@ -109,7 +114,9 @@ export default {
       console.log(filteredArray)
 
       this.chartData = filteredArray.map(el => el.food.calories)
+      this.chartCategories = filteredArray.map(el => el.date)
       console.log(this.chartData)
+      console.log(this.chartCategories)
 
       // this.updateChartSeries(
       //   filteredArray.map(el => el.food.calories)
@@ -121,7 +128,7 @@ export default {
     },
   },
   computed: {
-    getEatenFoods() {
+    getChartData() {
       // const filteredArray =
       //   this.foodStore.sortedByDataEatenFoods.filter(
       //     el =>
@@ -139,9 +146,15 @@ export default {
           format(this.startDate, 'dd.MM.yyyy', { locale: ru })
       )
     },
+    getChartCategories() {
+      return this.foodStore.sortedByDataEatenFoods.map(el => el.date)
+    },
   },
   created() {
-    this.chartData = this.getEatenFoods
+    this.chartData = this.getChartData
+    // console.log(typeof this.chartData[0])
+
+    this.chartCategories = this.getChartCategories
   },
 }
 </script>

@@ -1,5 +1,6 @@
 <template>
   <apexchart
+    ref="lineChart"
     type="line"
     height="350"
     :options="chartOptions"
@@ -15,6 +16,10 @@ export default {
   name: 'appLineChart',
   props: {
     data: {
+      type: Array,
+      requred: true,
+    },
+    categories: {
       type: Array,
       requred: true,
     },
@@ -72,7 +77,7 @@ export default {
           },
         },
         xaxis: {
-          categories: [],
+          categories: this.categories,
           // min: 1,
           // max: 7,
           // range: 6,
@@ -84,6 +89,15 @@ export default {
     data() {
       this.series[0].data = this.data
       console.log('change props data')
+    },
+    categories() {
+      console.log('change props categories')
+
+      this.$refs.lineChart.updateOptions({
+        xaxis: {
+          categories: this.categories,
+        },
+      })
     },
   },
   // created() {
