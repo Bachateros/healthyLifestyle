@@ -171,10 +171,26 @@ export default {
     addMass(e) {
       this.addingFood.mass = +e.target.value
     },
+    getNumber(string) {
+      if (isNaN(string)) {
+        const spaceChar = string.indexOf(' ')
+        return string
+          .slice(0, spaceChar) //вычленить цифры
+          .replace(',', '.')
+          .slice(0)
+      } else return +string
+    },
     async validate() {
       const { valid } = await this.$refs.form.validate()
 
       if (valid && this.addingFood.mass) {
+        for (const key in this.addingFood.food) {
+          if (key != 'name') {
+            this.addingFood.food[key] = this.getNumber(
+              this.addingFood.food[key]
+            )
+          }
+        }
         this.foodStore.eatenFoods.push(this.addingFood)
         this.foodStore.updateEatenBase()
         this.dialog = false

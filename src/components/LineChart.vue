@@ -17,16 +17,21 @@ export default {
   props: {
     data: {
       type: Array,
-      requred: true,
+      required: true,
     },
     categories: {
       type: Array,
-      requred: true,
+      required: true,
     },
+    // foods: {
+    //   type: Array,
+    //   required: true,
+    // },
   },
   data() {
     return {
       foodStore: useFoodStore(),
+      chartTitle: 'Вы ничего не съели за этот период',
       series: [
         {
           name: 'calories',
@@ -45,13 +50,13 @@ export default {
             opacity: 0.3,
           },
           // foreColor: 'inherit', //color of title
-          // background: 'indigo',
+          background: '#f9f9f9',
           zoom: {
-            enabled: false,
+            enabled: true,
           },
         },
         noData: {
-          text: 'Вы ничего не съели за этот период',
+          text: this.chartTitle,
         },
         dataLabels: {
           enabled: true,
@@ -61,9 +66,6 @@ export default {
         },
         title: {
           text: 'Калории за все время',
-          // format(new Date(), 'LLLL', {
-          //   locale: ru,
-          // }).toUpperCase(),
           align: 'center',
         },
         grid: {
@@ -94,6 +96,9 @@ export default {
       console.log('change props categories')
 
       this.$refs.lineChart.updateOptions({
+        title: {
+          text: 'Калории за выбранный период',
+        },
         xaxis: {
           categories: this.categories,
         },

@@ -212,7 +212,6 @@ export default {
     getTotalSmth(smth) {
       return this.modifiedFoods
         .reduce((total, item) => {
-          console.log(smth, item.food[smth])
           return (total += item.food[smth])
         }, 0)
         .toFixed(2)

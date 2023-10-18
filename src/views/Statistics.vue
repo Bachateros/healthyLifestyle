@@ -41,7 +41,7 @@
 </template>
 <script>
 import format from 'date-fns/format'
-import { es, ru } from 'date-fns/locale'
+import { el, es, ru } from 'date-fns/locale'
 
 import appHeader from '@/components/Header.vue'
 import appCalendar from '@/components/Calendar.vue'
@@ -113,6 +113,11 @@ export default {
       this.chartData = filteredArray.map(el => el.food.calories)
       this.chartCategories = filteredArray.map(el => el.date)
     },
+    // getCaloriesByOneDay(arr){
+    //   arr.forEach(item =>{
+    //     return item.
+    //   })
+    // }
   },
   computed: {
     getChartData() {
@@ -128,6 +133,23 @@ export default {
     this.chartData = this.getChartData
     // console.log(typeof this.chartData[0])
     this.chartCategories = this.getChartCategories
+  },
+  mounted() {
+    // const filteredArray = this.foodStore.sortedByDataEatenFoods
+    // const uniqDates = new Set(filteredArray.map(el => el.date))
+    // const newArr = filteredArray.filter(item => {
+    //   if (uniqDates.has(item.date)) {
+    //     uniqDates.delete(item.date)
+    //     console.log(uniqDates)
+    //     return true
+    //   } else {
+    //     return false
+    //   }
+    // })
+    // newArr.forEach(element => {
+    // });
+    // console.log(newArr)
+    // console.log(uniqDates)
   },
 }
 </script>
