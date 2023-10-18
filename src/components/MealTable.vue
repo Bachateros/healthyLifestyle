@@ -65,34 +65,6 @@
   </v-data-table-virtual>
 
   <v-table density="compact" hover>
-    <!-- <thead>
-      <tr>
-        <th class="text-left">Name</th>
-        <th class="text-left">Calories, kk</th>
-        <th class="text-left">Proteins, g</th>
-        <th class="text-left">Fats, g</th>
-        <th class="text-left">Carbons, g</th>
-        <th class="text-left">Mass, g</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="item in foods" :key="item.food.name">
-        <td>{{ item.food.name }}</td>
-        <td class="text-center">
-          {{ getValue(getNumber(item.food.calories), item.mass) }}
-        </td>
-        <td class="text-center">
-          {{ getValue(getNumber(item.food.proteins), item.mass) }}
-        </td>
-        <td class="text-center">
-          {{ getValue(getNumber(item.food.fats), item.mass) }}
-        </td>
-        <td class="text-center">
-          {{ getValue(getNumber(item.food.carbs), item.mass) }}
-        </td>
-        <td class="text-center">{{ item.mass }}</td>
-      </tr>
-    </tbody> -->
     <tfoot>
       <tr class="footer">
         <th class="footer__total">Total:</th>
@@ -189,22 +161,13 @@ export default {
         for (const key in newItem.food) {
           if (key != 'name') {
             newItem.food[key] = this.getValue(
-              this.getNumber(newItem.food[key]),
+              newItem.food[key],
               newItem.mass
             )
           }
         }
         return newItem
       })
-    },
-    getNumber(string) {
-      if (isNaN(string)) {
-        const spaceChar = string.indexOf(' ')
-        return string
-          .slice(0, spaceChar) //вычленить цифры
-          .replace(',', '.')
-          .slice(0)
-      } else return +string
     },
     getValue(smth, mass) {
       return +((smth * mass) / 100).toFixed(2)
