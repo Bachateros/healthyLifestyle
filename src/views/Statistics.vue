@@ -1,7 +1,8 @@
 <template>
   Statistics <appHeader />
-  <!-- <appCalendar /> -->
-  <!-- <v-date-picker
+  <div class="text-center px-3 py-1">
+    <!-- <appCalendar /> -->
+    <!-- <v-date-picker
     class="calendar"
     color="purple"
     border
@@ -14,71 +15,51 @@
     @click="selectDate"
     :max="new Date()"
   ></v-date-picker> -->
-  <!-- <Bar id="my-chart-id" :options="chartOptions" :data="chartData" /> -->
-  <div>
-    <v-btn
-      variant="flat"
-      class="text-decoration-underline px-2"
-      :class="isStartCalendarShowed ? 'active' : ''"
-      background-color="grey"
-      @click="
-        isEndCalendarShowed ? '' : (isStartCalendarShowed = true)
-      "
-      >Начало</v-btn
-    >
-    <div class="calendar" v-if="isStartCalendarShowed">
-      <appCalendar @selecttedDate="selectStartDate" />
-    </div>
+    <!-- <Bar id="my-chart-id" :options="chartOptions" :data="chartData" /> -->
+    <div>
+      <v-btn
+        variant="flat"
+        class="text-decoration-underline px-2"
+        :class="isStartCalendarShowed ? 'active' : ''"
+        background-color="grey"
+        @click="
+          isEndCalendarShowed ? '' : (isStartCalendarShowed = true)
+        "
+        >Начало</v-btn
+      >
+      <div class="calendar" v-if="isStartCalendarShowed">
+        <appCalendar @selecttedDate="selectStartDate" />
+      </div>
 
-    <v-btn
-      variant="flat"
-      class="text-decoration-underline px-2"
-      :class="isEndCalendarShowed ? 'active' : ''"
-      background-color="grey"
-      @click="
-        isStartCalendarShowed ? '' : (isEndCalendarShowed = true)
-      "
-      >Конец</v-btn
-    >
-    <div class="calendar" v-if="isEndCalendarShowed">
-      <appCalendar @selecttedDate="selectEndDate" :min="startDate" />
+      <v-btn
+        variant="flat"
+        class="text-decoration-underline px-2"
+        :class="isEndCalendarShowed ? 'active' : ''"
+        background-color="grey"
+        @click="
+          isStartCalendarShowed ? '' : (isEndCalendarShowed = true)
+        "
+        >Конец</v-btn
+      >
+      <div class="calendar" v-if="isEndCalendarShowed">
+        <appCalendar
+          @selecttedDate="selectEndDate"
+          :min="startDate"
+        />
+      </div>
     </div>
+    {{ getNiceDate(startDate) }}
+    {{ getNiceDate(endDate) }}
+    {{ user.userData }}
+    <apexchart
+      type="line"
+      height="350"
+      :options="chartOptions"
+      :series="series"
+    ></apexchart>
   </div>
-  {{ getNiceDate(startDate) }}
-  {{ getNiceDate(endDate) }}
-  {{ user.userData }}
-  <apexchart
-    type="line"
-    height="350"
-    :options="chartOptions"
-    :series="series"
-  ></apexchart>
-  <!-- <Line :options="chartOptions" :data="chartData" /> -->
 </template>
 <script>
-// import { Bar, Line } from 'vue-chartjs'
-// import {
-//   Chart as ChartJS,
-//   Title,
-//   Tooltip,
-//   Legend,
-//   BarElement,
-//   CategoryScale,
-//   LinearScale,
-//   PointElement,
-//   LineElement,
-// } from 'chart.js'
-
-// ChartJS.register(
-//   Title,
-//   Tooltip,
-//   Legend,
-//   BarElement,
-//   CategoryScale,
-//   LinearScale,
-//   PointElement,
-//   LineElement
-// )
 import format from 'date-fns/format'
 import { es, ru } from 'date-fns/locale'
 
@@ -135,7 +116,9 @@ export default {
           curve: 'straight',
         },
         title: {
-          text: 'lorem dsfdsfdf',
+          text: format(new Date(12, 10, 12), 'LLLL', {
+            locale: ru,
+          }).toUpperCase(),
           align: 'center',
         },
         grid: {
@@ -150,9 +133,9 @@ export default {
         },
         xaxis: {
           categories: [],
-          min: 1,
-          max: 7,
-          range: 6,
+          // min: 1,
+          // max: 7,
+          // range: 6,
         },
       },
     }
@@ -161,6 +144,7 @@ export default {
     selectStartDate(data) {
       this.startDate = data.date
       this.isStartCalendarShowed = false
+      this.startStatistic()
     },
     selectEndDate(data) {
       this.endDate = data.date
@@ -169,20 +153,57 @@ export default {
     getNiceDate(date) {
       if (date) return format(date, 'dd.MM.yyyy', { locale: ru })
     },
+    updateChartSeries(newData) {
+      this.series[0].data = newData
+    },
+    updateChartOptionsXaxisCategories(newOptions) {
+      this.chartOptions.xaxis.categories = newOptions
+    },
+    startStatistic() {
+      // const newOptions = {
+      //   categories: [],
+      //   min: 1,
+      //   max: 7,
+      //   range: 6,
+      // }
+      console.log(this.startDate.getDate())
+
+      const filteredArray =
+        this.foodStore.sortedByDataEatenFoods.filter(
+          el =>
+            el.date >=
+            format(this.startDate, 'dd.MM.yyyy', { locale: ru })
+        )
+      console.log(filteredArray)
+
+      this.updateChartSeries(
+        filteredArray.map(el => el.food.calories)
+      )
+      this.updateChartOptionsXaxisCategories(
+        ['test1', 'test2', 'test3']
+        // filteredArray.map(el => el.date)
+      )
+      // newOptions.min = 1
+      // this.updateChartOptionsXaxis(newOptions)
+    },
   },
   computed: {
     getMassive() {
       return [1, 2, 3]
     },
+    // getMonth(){
+    //   return
+    // }
   },
   created() {
-    console.log(this.foodStore.eatenFoods.map(el => el.mass))
-
-    this.series[0].data = this.foodStore.sortedByDataEatenFoods.map(
-      el => el.food.calories
+    this.updateChartSeries(
+      this.foodStore.sortedByDataEatenFoods.map(
+        el => el.food.calories
+      )
     )
-    this.chartOptions.xaxis.categories =
+    this.updateChartOptionsXaxisCategories(
       this.foodStore.sortedByDataEatenFoods.map(el => el.date)
+    )
     console.log(this.series)
     console.log('----------------')
     console.log(this.foodStore.sortedByDataEatenFoods)
