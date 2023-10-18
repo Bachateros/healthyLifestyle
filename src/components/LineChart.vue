@@ -80,6 +80,12 @@ export default {
       },
     }
   },
+  watch: {
+    data() {
+      this.series[0].data = this.data
+      console.log('change props data')
+    },
+  },
   // created() {
   //   this.updateChartSeries(
   //     this.foodStore.sortedByDataEatenFoods.map(

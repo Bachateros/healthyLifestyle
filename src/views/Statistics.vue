@@ -6,25 +6,23 @@
         variant="flat"
         class="text-decoration-underline px-2"
         :class="isStartCalendarShowed ? 'active' : ''"
-        background-color="grey"
         @click="
           isEndCalendarShowed ? '' : (isStartCalendarShowed = true)
         "
-        >Начало</v-btn
+        >{{ startDate ? getNiceDate(startDate) : 'Начало' }}</v-btn
       >
       <div class="calendar" v-if="isStartCalendarShowed">
         <appCalendar @selecttedDate="selectStartDate" />
       </div>
-
+      <span class="mx-2">-</span>
       <v-btn
         variant="flat"
         class="text-decoration-underline px-2"
         :class="isEndCalendarShowed ? 'active' : ''"
-        background-color="grey"
         @click="
           isStartCalendarShowed ? '' : (isEndCalendarShowed = true)
         "
-        >Конец</v-btn
+        >{{ endDate ? getNiceDate(endDate) : 'Конец' }}</v-btn
       >
       <div class="calendar" v-if="isEndCalendarShowed">
         <appCalendar
@@ -33,10 +31,8 @@
         />
       </div>
     </div>
-    {{ getNiceDate(startDate) }}
-    {{ getNiceDate(endDate) }}
     {{ user.userData }}
-    <appLineChart class="mt-3" :data="getEatenFoods" />
+    <appLineChart class="mt-3" :data="chartData" />
   </div>
 </template>
 <script>
@@ -65,13 +61,14 @@ export default {
       endDate: null,
       isStartCalendarShowed: false,
       isEndCalendarShowed: false,
+      chartData: [],
     }
   },
   methods: {
     selectStartDate(data) {
       this.startDate = data.date
       this.isStartCalendarShowed = false
-      // this.startStatistic()
+      this.startStatistic()
       // this.updateChartOptions('title', {
       //   text: format(this.startDate, 'LLLL', {
       //     locale: ru,
@@ -95,31 +92,33 @@ export default {
     // updateChartOptions(key, newValue) {
     //   this.chartOptions[key] = newValue
     // },
-    // startStatistic() {
-    //   // const newOptions = {
-    //   //   categories: [],
-    //   //   min: 1,
-    //   //   max: 7,
-    //   //   range: 6,
-    //   // }
-    //   console.log(this.startDate.getDate())
+    startStatistic() {
+      // const newOptions = {
+      //   categories: [],
+      //   min: 1,
+      //   max: 7,
+      //   range: 6,
+      // }
 
-    //   const filteredArray =
-    //     this.foodStore.sortedByDataEatenFoods.filter(
-    //       el =>
-    //         el.date >=
-    //         format(this.startDate, 'dd.MM.yyyy', { locale: ru })
-    //     )
-    //   console.log(filteredArray)
+      const filteredArray =
+        this.foodStore.sortedByDataEatenFoods.filter(
+          el =>
+            el.date >=
+            format(this.startDate, 'dd.MM.yyyy', { locale: ru })
+        )
+      console.log(filteredArray)
 
-    //   this.updateChartSeries(
-    //     filteredArray.map(el => el.food.calories)
-    //   )
-    //   this.updateChartOptionsXaxisCategories(
-    //     ['test1', 'test2', 'test3']
-    //     // filteredArray.map(el => el.date)
-    //   )
-    // },
+      this.chartData = filteredArray.map(el => el.food.calories)
+      console.log(this.chartData)
+
+      // this.updateChartSeries(
+      //   filteredArray.map(el => el.food.calories)
+      // )
+      // this.updateChartOptionsXaxisCategories(
+      //   ['test1', 'test2', 'test3']
+      //   // filteredArray.map(el => el.date)
+      // )
+    },
   },
   computed: {
     getEatenFoods() {
@@ -140,6 +139,9 @@ export default {
           format(this.startDate, 'dd.MM.yyyy', { locale: ru })
       )
     },
+  },
+  created() {
+    this.chartData = this.getEatenFoods
   },
 }
 </script>
