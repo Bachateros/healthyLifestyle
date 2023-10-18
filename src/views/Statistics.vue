@@ -33,13 +33,18 @@
     </div>
     {{ user.userData }}
     {{ getNeedCalories }}
+    {{ getBarNames }}
     <appLineChart
       class="mt-3"
       :data="chartData"
       :categories="chartCategories"
       :foods="chartFoods"
     />
-    <appBarChart class="mt-10" :expectedCalories="getNeedCalories" />
+    <appBarChart
+      class="mt-10"
+      :expectedCalories="getNeedCalories"
+      :names="getBarNames"
+    />
   </div>
 </template>
 <script>
@@ -143,10 +148,19 @@ export default {
             this.user.userData.age * 5 -
             161
     },
+    getCaloriesByDay() {
+      return
+    },
+    getBarNames() {
+      return Array.from(
+        new Set(
+          this.foodStore.sortedByDataEatenFoods.map(el => el.date)
+        )
+      )
+    },
   },
   created() {
     this.chartData = this.getChartData
-    console.log(typeof this.foodStore.sortedByDataEatenFoods)
     this.chartCategories = this.getChartCategories
   },
   mounted() {

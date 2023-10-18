@@ -15,6 +15,15 @@ export default {
       type: Number,
       required: true,
     },
+    data: {
+      //значения столбцов(общее кк за день)
+      //массив готовых значений
+    },
+    names: {
+      //подписи столбцов(даты)
+      type: Array,
+      required: true,
+    },
   },
   data() {
     return {
@@ -29,7 +38,7 @@ export default {
                 {
                   name: 'Expected',
                   value: this.expectedCalories,
-                  strokeHeight: 5,
+                  strokeHeight: 3,
                   strokeColor: '#775DD0',
                 },
               ],
@@ -275,6 +284,26 @@ export default {
       //     },
       //   },
     }
+  },
+  computed: {
+    // getX(){
+    //     return
+    // }
+  },
+  created() {
+    console.log(this.names)
+    this.series[0].data.forEach(
+      (obj, index) => (obj.x = this.names[index] ?? 'lohhh')
+    )
+    console.log(this.series)
+  },
+  watch: {
+    names() {
+      this.series.forEach(item =>
+        item.map((x, index) => names[index])
+      )
+      console.log(this.series)
+    },
   },
 }
 </script>
