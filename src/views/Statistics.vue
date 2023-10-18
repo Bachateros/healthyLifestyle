@@ -74,76 +74,50 @@ export default {
       this.startDate = data.date
       this.isStartCalendarShowed = false
       this.startStatistic()
-      // this.updateChartOptions('title', {
-      //   text: format(this.startDate, 'LLLL', {
-      //     locale: ru,
-      //   }).toUpperCase(),
-      // })
-      // console.log(this.chartOptions['title'])
     },
     selectEndDate(data) {
       this.endDate = data.date
       this.isEndCalendarShowed = false
+      this.endStatistic()
     },
     getNiceDate(date) {
       if (date) return format(date, 'dd.MM.yyyy', { locale: ru })
     },
-    // updateChartSeries(newData) {
-    //   this.series[0].data = newData
-    // },
-    // updateChartOptionsXaxisCategories(newOptions) {
-    //   this.chartOptions.xaxis.categories = newOptions
-    // },
-    // updateChartOptions(key, newValue) {
-    //   this.chartOptions[key] = newValue
-    // },
     startStatistic() {
-      // const newOptions = {
-      //   categories: [],
-      //   min: 1,
-      //   max: 7,
-      //   range: 6,
-      // }
-
       const filteredArray =
         this.foodStore.sortedByDataEatenFoods.filter(
           el =>
             el.date >=
-            format(this.startDate, 'dd.MM.yyyy', { locale: ru })
+              format(this.startDate, 'dd.MM.yyyy', { locale: ru }) &&
+            el.date <=
+              (this.endDate
+                ? format(this.endDate, 'dd.MM.yyyy', { locale: ru })
+                : format(new Date(), 'dd.MM.yyyy', { locale: ru }))
         )
-      console.log(filteredArray)
-
       this.chartData = filteredArray.map(el => el.food.calories)
       this.chartCategories = filteredArray.map(el => el.date)
-      console.log(this.chartData)
-      console.log(this.chartCategories)
-
-      // this.updateChartSeries(
-      //   filteredArray.map(el => el.food.calories)
-      // )
-      // this.updateChartOptionsXaxisCategories(
-      //   ['test1', 'test2', 'test3']
-      //   // filteredArray.map(el => el.date)
-      // )
+    },
+    endStatistic() {
+      const filteredArray =
+        this.foodStore.sortedByDataEatenFoods.filter(
+          el =>
+            el.date <=
+              format(this.endDate, 'dd.MM.yyyy', { locale: ru }) &&
+            el.date >=
+              (this.startDate
+                ? format(this.startDate, 'dd.MM.yyyy', { locale: ru })
+                : format(new Date(0), 'dd.MM.yyyy', {
+                    locale: ru,
+                  }))
+        )
+      this.chartData = filteredArray.map(el => el.food.calories)
+      this.chartCategories = filteredArray.map(el => el.date)
     },
   },
   computed: {
     getChartData() {
-      // const filteredArray =
-      //   this.foodStore.sortedByDataEatenFoods.filter(
-      //     el =>
-      //       el.date >=
-      //       format(this.startDate, 'dd.MM.yyyy', { locale: ru })
-      //   )
-
       return this.foodStore.sortedByDataEatenFoods.map(
         el => el.food.calories
-      )
-
-      return this.foodStore.sortedByDataEatenFoods.filter(
-        el =>
-          el.date >=
-          format(this.startDate, 'dd.MM.yyyy', { locale: ru })
       )
     },
     getChartCategories() {
@@ -153,7 +127,6 @@ export default {
   created() {
     this.chartData = this.getChartData
     // console.log(typeof this.chartData[0])
-
     this.chartCategories = this.getChartCategories
   },
 }
