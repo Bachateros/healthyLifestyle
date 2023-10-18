@@ -2,7 +2,7 @@
   <apexchart
     ref="barChart"
     type="bar"
-    height="350"
+    height="500"
     :options="chartOptions"
     :series="series"
   ></apexchart>
@@ -293,7 +293,7 @@ export default {
   created() {
     console.log(this.names)
     this.series[0].data.forEach(
-      (obj, index) => (obj.x = this.names[index] ?? 'lohhh')
+      (obj, index) => (obj.x = this.names[index] ?? 'anonim')
     )
     console.log(this.series)
   },

@@ -2,7 +2,7 @@
   <apexchart
     ref="lineChart"
     type="line"
-    height="350"
+    height="500"
     :options="chartOptions"
     :series="series"
   ></apexchart>
