@@ -4,11 +4,12 @@
     density="compact"
     theme="dark"
     image="https://cdn.vuetifyjs.com/images/backgrounds/bg.jpg"
+    @click.stop="drawer = !drawer"
   >
-    <v-app-bar-nav-icon
-      @click.stop="drawer = !drawer"
-    ></v-app-bar-nav-icon>
-    <v-app-bar-title>{{ currentPage }}</v-app-bar-title>
+    <v-app-bar-nav-icon></v-app-bar-nav-icon>
+    <v-app-bar-title class="pointer">{{
+      currentPage
+    }}</v-app-bar-title>
   </v-app-bar>
   <v-navigation-drawer
     v-model="drawer"
@@ -36,19 +37,19 @@ export default {
       drawer: false,
       items: [
         {
-          title: 'User Profile',
-          value: 'userSettings',
-        },
-        {
-          title: 'Home',
+          title: 'Главная',
           value: 'mainPage',
         },
         {
-          title: 'Statistics',
+          title: 'Пользователь',
+          value: 'userSettings',
+        },
+        {
+          title: 'Статистика',
           value: 'statistics',
         },
         {
-          title: 'Catalog',
+          title: 'Каталог',
           value: 'catalog',
         },
       ],
@@ -56,10 +57,16 @@ export default {
   },
   computed: {
     currentPage() {
-      return this.$route.matched[0].name
+      return this.items.find(
+        el => el.value == this.$route.matched[0].name
+      ).title
     },
   },
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.pointer {
+  cursor: pointer;
+}
+</style>
