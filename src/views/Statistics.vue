@@ -44,6 +44,7 @@
       class="mt-10"
       :expectedCalories="getNeedCalories"
       :names="getBarNames"
+      :data="getBarData"
     />
   </div>
 </template>
@@ -81,6 +82,9 @@ export default {
     }
   },
   methods: {
+    getValue(smth, mass) {
+      return +((smth * mass) / 100).toFixed(2)
+    },
     selectStartDate(data) {
       this.startDate = data.date
       this.isStartCalendarShowed = false
@@ -105,7 +109,17 @@ export default {
                 ? format(this.endDate, 'dd.MM.yyyy', { locale: ru })
                 : format(new Date(), 'dd.MM.yyyy', { locale: ru }))
         )
-      this.chartData = filteredArray.map(el => el.food.calories)
+      for (const key in filteredArray.food) {
+        if (key != 'name') {
+          filteredArray.food[key] = this.getValue(
+            filteredArray.food[key],
+            filteredArray.mass
+          )
+        }
+      }
+      this.chartFoods = filteredArray
+      console.log(this.chartData)
+      // this.chartData = filteredArray.map(el => el.food.calories)
       this.chartCategories = filteredArray.map(el => el.date)
     },
     endStatistic() {
@@ -121,13 +135,30 @@ export default {
                     locale: ru,
                   }))
         )
+      for (const key in filteredArray.food) {
+        if (key != 'name') {
+          filteredArray.food[key] = this.getValue(
+            filteredArray.food[key],
+            filteredArray.mass
+          )
+        }
+      }
       this.chartFoods = filteredArray
+      console.log(this.chartData)
       this.chartData = filteredArray.map(el => el.food.calories)
       this.chartCategories = filteredArray.map(el => el.date)
     },
   },
   computed: {
     getChartData() {
+      const arr = this.foodStore.sortedByDataEatenFoods
+      for (const key in arr.food) {
+        if (key != 'name') {
+          arr.food[key] = this.getValue(arr.food[key], arr.mass)
+        }
+      }
+      this.chartFoods = arr
+      console.log(this.chartFoods)
       return this.foodStore.sortedByDataEatenFoods.map(
         el => el.food.calories
       )
@@ -157,6 +188,13 @@ export default {
           this.foodStore.sortedByDataEatenFoods.map(el => el.date)
         )
       )
+    },
+    getBarData() {
+      const barData = []
+      this.getBarNames.forEach((el, index) => {
+        this.foodStore.sortedByDataEatenFoods
+      })
+      return []
     },
   },
   created() {

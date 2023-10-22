@@ -80,44 +80,6 @@ export default {
               ],
             },
             {
-              x: '2015',
-              y: 8133,
-              goals: [
-                {
-                  name: 'Expected',
-                  value: 6600,
-                  strokeHeight: 13,
-                  strokeWidth: 0,
-                  strokeLineCap: 'round',
-                  strokeColor: '#775DD0',
-                },
-              ],
-            },
-            {
-              x: '2016',
-              y: 7132,
-              goals: [
-                {
-                  name: 'Expected',
-                  value: 7500,
-                  strokeHeight: 5,
-                  strokeColor: '#775DD0',
-                },
-              ],
-            },
-            {
-              x: '2017',
-              y: 7332,
-              goals: [
-                {
-                  name: 'Expected',
-                  value: 8700,
-                  strokeHeight: 5,
-                  strokeColor: '#775DD0',
-                },
-              ],
-            },
-            {
               x: '2018',
               y: 6553,
               goals: [
