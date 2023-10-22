@@ -1,9 +1,9 @@
 <template>
-  User Profile <appHeader></appHeader> user : {{ localUser.name }}
+  <appHeader></appHeader>
   <v-sheet
     width="75%"
     max-width="500"
-    class="mx-auto"
+    class="mx-auto mt-5"
     v-if="!user.isUser || isChanged"
   >
     <v-form ref="form">
@@ -47,6 +47,14 @@
         required
       ></v-text-field>
 
+      <v-select
+        v-model="localUser.activity"
+        :items="activities"
+        :rules="[v => !!v || 'Item is required']"
+        label="Уровень активности"
+        required
+      ></v-select>
+
       <div class="d-flex flex-column">
         <v-btn color="success" class="mt-4" block @click="validate">
           Validate
@@ -67,7 +75,7 @@
       </div>
     </v-form>
   </v-sheet>
-  <v-sheet v-else width="90%" class="mx-auto">
+  <v-sheet v-else width="70%" class="mx-auto mt-5">
     <v-card color="#ffeeff">
       <div class="d-flex">
         <v-avatar
@@ -84,8 +92,14 @@
             <div>Name: {{ user.userData.name }}</div>
             <div class="ml-7">Sex: {{ user.userData.sex }}</div>
           </div>
-          <p>Age: {{ user.userData.age }}</p>
+          <div class="d-flex justify-space-between">
+            <div>Age: {{ user.userData.age }}</div>
+            <div class="ml-5">
+              Уровень активности: {{ user.userData.activity }}
+            </div>
+          </div>
           <p>Height: {{ user.userData.height }}</p>
+          <p>Weight: {{ user.userData.weight }}</p>
           <p>Weight: {{ user.userData.weight }}</p>
         </div>
       </div>
@@ -134,6 +148,7 @@ export default {
   },
   data: () => ({
     sex: ['Male', 'Female'],
+    activities: ['Низкий', 'Средний', 'Высокий', 'Очень высокий'],
     dialog: false,
     user: useUserInformation(),
     localUser: {

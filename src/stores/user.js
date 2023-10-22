@@ -6,6 +6,7 @@ export const defaultUserData = {
   age: 18,
   height: 0,
   weight: 0,
+  activity: null,
 }
 const getUserData = () => {
   const userInLocalStorage = window.localStorage.getItem('user')
