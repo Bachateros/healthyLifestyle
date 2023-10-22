@@ -11,15 +11,15 @@
         v-model="localUser.name"
         :counter="20"
         :rules="nameRules"
-        label="Name"
+        label="Имя"
         required
       ></v-text-field>
 
       <v-select
         v-model="localUser.sex"
         :items="sex"
-        :rules="[v => !!v || 'Item is required']"
-        label="Sex"
+        :rules="[v => !!v || 'Обязательное поле']"
+        label="Пол"
         required
       ></v-select>
 
@@ -27,7 +27,7 @@
         v-model="localUser.age"
         :counter="3"
         :rules="ageRules"
-        label="Age"
+        label="Возраст"
         required
       ></v-text-field>
 
@@ -35,7 +35,7 @@
         v-model="localUser.height"
         :counter="6"
         :rules="bodyRulus"
-        label="Height"
+        label="Рост"
         required
       ></v-text-field>
 
@@ -43,34 +43,29 @@
         v-model="localUser.weight"
         :counter="6"
         :rules="bodyRulus"
-        label="Weight"
+        label="Вес"
         required
       ></v-text-field>
 
       <v-select
         v-model="localUser.activity"
         :items="activities"
-        :rules="[v => !!v || 'Item is required']"
+        :rules="[v => !!v || 'Обязательное поле']"
         label="Уровень активности"
         required
       ></v-select>
 
       <div class="d-flex flex-column">
         <v-btn color="success" class="mt-4" block @click="validate">
-          Validate
+          Сохранить
         </v-btn>
 
         <v-btn color="error" class="mt-4" block @click="reset">
-          Reset Form
+          Сбросить данные
         </v-btn>
 
-        <v-btn
-          color="warning"
-          class="mt-4"
-          block
-          @click="resetValidation"
-        >
-          Reset Validation
+        <v-btn color="warning" class="mt-4" block @click="cancel">
+          Отмена
         </v-btn>
       </div>
     </v-form>
@@ -89,30 +84,36 @@
           class="d-flex flex-column ml-5 justify-space-evenly me-auto"
         >
           <div class="d-flex justify-space-between">
-            <div>Name: {{ user.userData.name }}</div>
-            <div class="ml-7">Sex: {{ user.userData.sex }}</div>
+            <div>Имя: {{ user.userData.name }}</div>
+            <div class="ml-7">Пол: {{ user.userData.sex }}</div>
           </div>
           <div class="d-flex justify-space-between">
-            <div>Age: {{ user.userData.age }}</div>
+            <div>Возраст: {{ user.userData.age }}</div>
             <div class="ml-5">
               Уровень активности: {{ user.userData.activity }}
             </div>
           </div>
-          <p>Height: {{ user.userData.height }}</p>
-          <p>Weight: {{ user.userData.weight }}</p>
+          <p>Рост: {{ user.userData.height }}</p>
+          <p>Вес: {{ user.userData.weight }}</p>
         </div>
       </div>
     </v-card>
     <v-row justify="space-evenly" aligh="center" class="mt-5">
-      <v-btn color="success" @click="updateData">Update data</v-btn>
+      <v-btn color="success" @click="updateData"
+        >Обновить данные</v-btn
+      >
 
       <v-dialog v-model="dialog" persistent width="auto">
         <template v-slot:activator="{ props }">
-          <v-btn color="error" v-bind="props">Delete Data</v-btn>
+          <v-btn color="error" v-bind="props">Удалить данные</v-btn>
         </template>
         <v-card>
-          <v-card-title class="text-h5"
-            >Do you really want to delete your data?</v-card-title
+          <v-card-title class="text-h5 text-center"
+            >Выход из приложения</v-card-title
+          >
+          <v-card-text class="text-h5 text-center"
+            >Вы действительно хотетите выйти из приложения? Все данные
+            будут удалены безвозвратно!</v-card-text
           >
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -122,14 +123,14 @@
               variant="text"
               @click="dialog = false"
             >
-              Not, really not</v-btn
+              Ой, нет, не хочу</v-btn
             >
             <v-btn
               color="red-darken-1"
               variant="text"
               @click="deleteUser"
             >
-              Yes:(</v-btn
+              Да:(</v-btn
             >
           </v-card-actions>
         </v-card>
@@ -146,7 +147,7 @@ export default {
     appHeader,
   },
   data: () => ({
-    sex: ['Male', 'Female'],
+    sex: ['Мужской', 'Женский'],
     activities: ['Низкий', 'Средний', 'Высокий', 'Очень высокий'],
     dialog: false,
     user: useUserInformation(),
@@ -159,20 +160,21 @@ export default {
     },
     isChanged: false,
     nameRules: [
-      v => !!v || 'Name is required',
+      v => !!v || 'Обязательное поле',
       v =>
-        (v && v.length <= 20) ||
-        'Name must be less than 20 characters',
+        (v && v.length <= 20) || 'Имя должно быть меньше 20 символов',
       v =>
-        (v && v.length >= 2) || 'Name must be more than 1 character',
+        (v && v.length >= 2) ||
+        'Имя должно быть болшье одного символа',
     ],
     ageRules: [
-      v => !!v || 'Age is requred',
-      v => (v && v > 7) || 'Age must be more than 7',
+      v => !!v || 'Обязательное поле',
+      v => (v && v > 5) || 'Приложение для пользователей старше 5',
     ],
     bodyRulus: [
-      v => !!v || 'It is requred',
-      v => (v && v > 30 && v < 250) || "It's a magic digits",
+      v => !!v || 'Обязательное поле',
+      v =>
+        (v && v > 30 && v < 250) || 'Что за магическое число число',
     ],
   }),
   methods: {
@@ -187,10 +189,11 @@ export default {
     reset() {
       this.$refs.form.reset()
     },
-    resetValidation() {
-      this.$refs.form.resetValidation()
+    cancel() {
+      this.isChanged = false
     },
     updateData() {
+      this.localUser = this.user.userData
       this.isChanged = true
     },
     deleteUser() {
@@ -202,7 +205,7 @@ export default {
   },
   computed: {
     getAvatar() {
-      return this.user.userData.sex == 'Male'
+      return this.user.userData.sex == 'Мужской'
         ? 'https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortWaved&accessoriesType=Round&hairColor=BrownDark&facialHairType=BeardLight&facialHairColor=Black&clotheType=Hoodie&clotheColor=Heather&eyeType=Happy&eyebrowType=UpDown&mouthType=Default&skinColor=Light'
         : 'https://avataaars.io/'
     },

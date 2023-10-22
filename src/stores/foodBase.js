@@ -52,7 +52,10 @@ export const useFoodStore = defineStore('foodStore', {
       const url = 'http://localhost:3001' //Обращение к собственному серверу
       const res = await fetch(url)
       const data = await res.json()
-      this.foods = await data.concat(this.$state.addedFoods)
+      return data
+    },
+    setFood() {
+      this.foods = this.getFood().concat(this.$state.addedFoods)
     },
     updateEatenBase() {
       window.localStorage.setItem(
@@ -65,7 +68,7 @@ export const useFoodStore = defineStore('foodStore', {
         'addedFood',
         JSON.stringify(this.$state.addedFoods)
       )
-      this.getFood()
+      this.setFood()
     },
   },
 })
