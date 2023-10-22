@@ -34,6 +34,7 @@
     {{ user.userData }}
     {{ getNeedCalories }}
     {{ getBarNames }}
+    {{ getBarData }}
     <appLineChart
       class="mt-3"
       :data="chartData"
@@ -151,18 +152,9 @@ export default {
   },
   computed: {
     getChartData() {
-      const arr = this.foodStore.sortedByDataEatenFoods
-      arr.forEach((el, index) => {
-        for (const key in el.food) {
-          if (key != 'name') {
-            arr[index].food[key] = this.getValue(
-              el.food[key],
-              el.mass
-            )
-          }
-        }
-      })
-      return arr.map(el => el.food.calories)
+      return this.foodStore.withMultiplyCategories.map(
+        el => el.food.calories
+      )
     },
     getChartCategories() {
       return this.foodStore.sortedByDataEatenFoods.map(
@@ -188,7 +180,8 @@ export default {
       )
     },
     getBarData() {
-      const barData = []
+      const barData = this.getChartData
+      console.log(barData)
       this.getBarNames.forEach((el, index) => {
         this.foodStore.sortedByDataEatenFoods
       })

@@ -30,6 +30,24 @@ export const useFoodStore = defineStore('foodStore', {
   getters: {
     sortedByDataEatenFoods: state =>
       state.eatenFoods.sort((a, b) => (a.date > b.date ? 1 : -1)),
+    withMultiplyCategories() {
+      const arr = JSON.parse(
+        JSON.stringify(this.sortedByDataEatenFoods)
+      )
+      console.log(arr)
+      arr.forEach((el, index) => {
+        for (const key in el.food) {
+          if (key != 'name') {
+            arr[index].food[key] = +(
+              (el.food[key] * el.mass) /
+              100
+            ).toFixed(2)
+          }
+        }
+      })
+      console.log(arr)
+      return arr
+    },
   },
   actions: {
     async getFood() {
