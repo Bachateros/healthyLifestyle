@@ -19,7 +19,7 @@
       <span v-if="isEatenSmth">вы съели:</span>
       <span v-else>вы еще ничего не съели.</span>
     </div>
-    <div v-if="isEatenSmth">
+    <div v-if="isEatenSmth" class="my-5">
       <appMealTable
         :foods="getTodayEatenFood"
         :choosenDate="choosenDate"
@@ -30,7 +30,7 @@
     </div>
     <v-row
       v-if="isEatenSmth"
-      class="my-4 d-flex flex-column align-center"
+      class="my-6 d-flex flex-column align-center"
     >
       <v-row class="justify-end mb-n1">Что-то еще съели?</v-row>
       <v-row><appAddProduct type="string" /></v-row>

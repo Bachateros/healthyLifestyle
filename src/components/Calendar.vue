@@ -1,16 +1,7 @@
 <template>
   <!-- <v-date-picker
-    class="calendar"
     color="purple"
     border
-    cancel-text="Отмена"
-    header="Выберите дату"
-    ok-text="Все ок"
-    title="Calendarik"
-    locale="ru"
-    v-model="date"
-    @click="selectDate"
-    :max="new Date()"
   ></v-date-picker> -->
   <v-text-field
     prepend-icon="mdi mdi-calendar"
@@ -18,7 +9,7 @@
     @click="isCalendar = true"
     :value="dateCute"
     required
-    hint="example of persistent helper text"
+    hint="Когда вы покушали"
     variant="underlined"
     persistent-hint
   />

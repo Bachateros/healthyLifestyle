@@ -5,7 +5,7 @@
         v-bind="props"
         v-model="search"
         append-icon="mdi-magnify"
-        label="Search"
+        label="Поиск"
         hide-details
       ></v-text-field>
     </template>

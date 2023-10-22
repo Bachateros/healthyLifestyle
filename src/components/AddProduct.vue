@@ -16,18 +16,20 @@
         prepend-icon="mdi-plus-circle"
         class="rounded-pill bigger"
       >
-        Add product
+        Добавить продукт
       </v-btn>
     </template>
     <v-card>
-      <v-card-title>
-        <span class="text-h5">Что хотите добавить?</span>
+      <v-card-title class="text-center mb-n3">
+        <span class="text-h5 font-weight-medium"
+          >Что хотите добавить?</span
+        >
       </v-card-title>
       <v-card-text>
         <v-container>
           <v-row class="d-flex flex-column">
             <v-row class="align-center justify-space-between">
-              <v-col cols="4"><h3>Date:</h3> </v-col>
+              <v-col cols="4"><h3>Дата:</h3> </v-col>
               <v-col cols="8">
                 <appCalendar
                   @selecttedDate="selectDate"
@@ -37,16 +39,16 @@
               </v-col>
             </v-row>
             <v-form ref="form">
-              <v-row class="align-center justify-space-between">
-                <v-col cols="4"><h3>Type of meal:</h3> </v-col>
+              <v-row class="align-center justify-space-between my-2">
+                <v-col cols="4"><h3>Тип приема пищи:</h3> </v-col>
                 <v-col cols="8">
                   <v-select
                     :rules="requiredRule"
                     :value="typeOfMeal"
                     v-model="addingFood.type"
                     variant="underlined"
-                    :items="['Breakfast', 'Lunch', 'Snack', 'Dinner']"
-                    label="Type*"
+                    :items="['Завтрак', 'Обед', 'Перекус', 'Ужин']"
+                    label="Тип*"
                     required
                     @update:modelValue="isSelectType = true"
                   ></v-select>
@@ -70,10 +72,10 @@
                 v-if="isSelectMass"
                 class="align-center justify-space-between"
               >
-                <v-col cols="4"><h3>Mass, g:</h3> </v-col>
+                <v-col cols="4"><h3>Масса, г:</h3> </v-col>
                 <v-col cols="8">
                   <v-text-field
-                    label="gramm*"
+                    label="Грамм*"
                     :rules="massRule"
                     required
                     variant="underlined"
@@ -93,10 +95,10 @@
           variant="text"
           @click="dialog = false"
         >
-          Close
+          Закрыть
         </v-btn>
         <v-btn color="blue-darken-1" variant="text" @click="validate">
-          Save
+          Сохранить
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -144,11 +146,11 @@ export default {
       food: {}, //алыча
       mass: 0, //150 gramm
     },
-    requiredRule: [value => !!value || 'Required'],
+    requiredRule: [value => !!value || 'Обязательное поле'],
     massRule: [
-      value => !!value || 'Requred',
-      value => !isNaN(value) || 'Must be number',
-      value => value > 0 || 'Must be more than zero',
+      value => !!value || 'Обязательное поле',
+      value => !isNaN(value) || 'Должно быть число',
+      value => value > 0 || 'Должно быть больше нуля',
     ],
   }),
   computed: {
