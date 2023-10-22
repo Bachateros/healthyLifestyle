@@ -39,6 +39,9 @@ export default {
         title: {
           text: 'Калории по дням за все время',
           align: 'center',
+          style: {
+            fontSize: '20px',
+          },
         },
         chart: {
           height: 350,
@@ -228,7 +231,6 @@ export default {
       this.$refs.barChart.updateOptions({
         title: {
           text: 'Калории по дням за выбранный период',
-          align: 'center',
         },
       })
     },

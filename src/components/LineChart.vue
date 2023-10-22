@@ -66,6 +66,9 @@ export default {
         title: {
           text: 'Калории по приемам пищи за все время',
           align: 'center',
+          style: {
+            fontSize: '20px',
+          },
         },
         grid: {
           row: {

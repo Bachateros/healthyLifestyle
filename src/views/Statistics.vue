@@ -31,11 +31,6 @@
         />
       </div>
     </div>
-    {{ user.userData }}
-    {{ getNeedCalories }}
-    --{{ chartData }}--
-    {{ getBarNames }}
-    {{ getBarData }}
     <appLineChart
       class="mt-3"
       :data="chartData"
@@ -48,6 +43,7 @@
       :names="barChartNames"
       :data="barChartData"
     />
+    <appDonutChart class="mt-10" :data="donutData" />
   </div>
 </template>
 <script>
@@ -58,6 +54,7 @@ import appHeader from '@/components/Header.vue'
 import appCalendar from '@/components/Calendar.vue'
 import appLineChart from '@/components/LineChart.vue'
 import appBarChart from '@/components/BarChart.vue'
+import appDonutChart from '@/components/DonutChart.vue'
 
 import { useFoodStore } from '@/stores/foodBase'
 import { useUserInformation } from '@/stores/user'
@@ -69,6 +66,7 @@ export default {
     appCalendar,
     appLineChart,
     appBarChart,
+    appDonutChart,
   },
   data() {
     return {
@@ -83,6 +81,7 @@ export default {
       chartFoods: [],
       barChartData: [],
       barChartNames: [],
+      donutData: [],
     }
   },
   methods: {
@@ -115,6 +114,7 @@ export default {
       this.chartCategories = filteredArray.map(el => el.date)
       this.barChartData = this.getBarData
       this.barChartNames = this.getBarNames
+      this.donutData = this.getDonutData
     },
     endStatistic() {
       const filteredArray =
@@ -134,6 +134,7 @@ export default {
       this.chartCategories = filteredArray.map(el => el.date)
       this.barChartData = this.getBarData
       this.barChartNames = this.getBarNames
+      this.donutData = this.getDonutData
     },
   },
   computed: {
@@ -175,6 +176,25 @@ export default {
       })
       return barData
     },
+    getDonutData() {
+      const donutData = [0, 0, 0]
+      this.chartFoods.forEach(el => {
+        for (const key in el.food) {
+          switch (key) {
+            case 'proteins':
+              donutData[0] += el.food[key]
+              break
+            case 'fats':
+              donutData[1] += el.food[key]
+              break
+            case 'carbs':
+              donutData[2] += el.food[key]
+              break
+          }
+        }
+      })
+      return donutData.map(el => +el.toFixed(2))
+    },
   },
   created() {
     this.chartData = this.getChartData
@@ -182,6 +202,7 @@ export default {
     this.chartFoods = this.foodStore.withMultiplyCategories
     this.barChartNames = this.getBarNames
     this.barChartData = this.getBarData
+    this.donutData = this.getDonutData
   },
 }
 </script>
