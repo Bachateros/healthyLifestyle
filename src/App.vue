@@ -16,7 +16,7 @@ export default {
     }
   },
   mounted() {
-    this.foodStore.getFood()
+    this.foodStore.setFood()
   },
 }
 </script>

@@ -8,17 +8,17 @@
   >
     <template v-slot:top>
       <v-toolbar flat>
-        <v-toolbar-title>Added foods</v-toolbar-title>
+        <v-toolbar-title>Добавленные продукты</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ props }">
             <v-btn color="primary" dark class="mb-2" v-bind="props">
-              New Item
+              Новый продукт
             </v-btn>
           </template>
           <v-card>
-            <v-card-title>
+            <v-card-title class="text-center">
               <span class="text-h5">{{ formTitle }}</span>
             </v-card-title>
 
@@ -28,31 +28,31 @@
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
                       v-model="editedItem.name"
-                      label="Dessert name"
+                      label="Продукт"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
                       v-model="editedItem.calories"
-                      label="Calories"
+                      label="Калории (кк)"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
-                      v-model="editedItem.fat"
-                      label="Fat (g)"
+                      v-model="editedItem.fats"
+                      label="Жиры (г)"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
                       v-model="editedItem.carbs"
-                      label="Carbs (g)"
+                      label="Углеводы (г)"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
-                      v-model="editedItem.protein"
-                      label="Protein (g)"
+                      v-model="editedItem.proteins"
+                      label="Белки (г)"
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -66,23 +66,26 @@
                 variant="text"
                 @click="close"
               >
-                Cancel
+                Отмена
               </v-btn>
               <v-btn
                 color="blue-darken-1"
                 variant="text"
                 @click="save"
               >
-                Save
+                Сохранить
               </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
-            <v-card-title class="text-h5"
-              >Are you sure you want to delete this
-              item?</v-card-title
+            <v-card-title class="text-h5 text-center"
+              >Удаление продукта из каталога</v-card-title
+            >
+            <v-card-text class="text-center"
+              >Вы действительно хотите удалить этот продкт из
+              каталога?</v-card-text
             >
             <v-card-actions>
               <v-spacer></v-spacer>
@@ -90,13 +93,13 @@
                 color="blue-darken-1"
                 variant="text"
                 @click="closeDelete"
-                >Cancel</v-btn
+                >Нет, не не хочу</v-btn
               >
               <v-btn
                 color="blue-darken-1"
                 variant="text"
                 @click="deleteItemConfirm"
-                >OK</v-btn
+                >Да</v-btn
               >
               <v-spacer></v-spacer>
             </v-card-actions>
@@ -132,16 +135,16 @@ export default {
     foodBase: useFoodStore(),
     headers: [
       {
-        title: 'Dessert (100g serving)',
+        title: 'Продукт (100г)',
         align: 'start',
         sortable: false,
         key: 'name',
       },
-      { title: 'Calories', key: 'calories' },
-      { title: 'Protein (g)', key: 'protein' },
-      { title: 'Fat (g)', key: 'fat' },
-      { title: 'Carbs (g)', key: 'carbs' },
-      { title: 'Actions', key: 'actions', sortable: false },
+      { title: 'Калории (кк)', key: 'calories' },
+      { title: 'Белки (г)', key: 'proteins' },
+      { title: 'Жиры (г)', key: 'fats' },
+      { title: 'Углеводы (г)', key: 'carbs' },
+      { title: 'Действия', key: 'actions', sortable: false },
     ],
     desserts: [],
     editedIndex: -1,
@@ -163,7 +166,9 @@ export default {
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+      return this.editedIndex === -1
+        ? 'Новый продукт'
+        : 'Редактировать продукт'
     },
   },
 

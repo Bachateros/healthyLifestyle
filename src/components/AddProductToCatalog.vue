@@ -2,12 +2,12 @@
   <v-dialog v-model="dialog" max-width="550px">
     <template v-slot:activator="{ props }">
       <v-btn color="indigo" dark class="mb-2" v-bind="props">
-        New Item
+        Новый продукт
       </v-btn>
     </template>
     <v-card>
       <v-card-title>
-        <span class="text-h5">New Item</span>
+        <span class="text-h5">Новый продукт</span>
       </v-card-title>
       <v-card-text>
         <v-container>
@@ -15,31 +15,31 @@
             <v-col cols="12" sm="6" md="6">
               <v-text-field
                 v-model="editedItem.name"
-                label="Product name"
+                label="Название продукта"
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6" md="6">
               <v-text-field
                 v-model="editedItem.calories"
-                label="Calories (kk)"
+                label="Калории (кк)"
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6" md="4">
               <v-text-field
                 v-model="editedItem.proteins"
-                label="Protein (g)"
+                label="Белки (г)"
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6" md="4">
               <v-text-field
                 v-model="editedItem.fats"
-                label="Fat (g)"
+                label="Жиры (г)"
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6" md="4">
               <v-text-field
                 v-model="editedItem.carbs"
-                label="Carbs (g)"
+                label="Углеводы (г)"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -48,10 +48,10 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="blue-darken-1" variant="text" @click="close">
-          Cancel
+          Отмена
         </v-btn>
         <v-btn color="blue-darken-1" variant="text" @click="save">
-          Save
+          Сохранить
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -93,9 +93,6 @@ export default {
       this.foodBase.updateAddedFoodBase()
       this.close()
     },
-  },
-  mounted() {
-    console.log(this.foodBase.foods.length)
   },
 }
 </script>
