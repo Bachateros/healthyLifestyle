@@ -29,6 +29,8 @@
       title
       v-model="date"
       @click="selectDate"
+      cancel-text="Отмена"
+      ok-text="Выбрать"
       :max="new Date()"
       :min="min"
     ></v-date-picker>
@@ -65,8 +67,8 @@ export default {
   methods: {
     selectDate(e) {
       if (
-        e.target.textContent === 'Cancel' ||
-        e.target.textContent === 'OK'
+        e.target.textContent === 'Отмена' ||
+        e.target.textContent === 'Выбрать'
       ) {
         this.isCalendar = false
         this.$emit('selecttedDate', this.$data)

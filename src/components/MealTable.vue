@@ -37,11 +37,15 @@
       <v-dialog
         v-model="dialogDelete"
         max-width="500px"
-        height="300px"
+        height="400px"
       >
         <v-card>
-          <v-card-title class="text-h5"
-            >Are you sure you want to delete this item?</v-card-title
+          <v-card-title class="text-h5 text-center"
+            >Удаление продукта</v-card-title
+          >
+          <v-card-text class="text-h5 text-center"
+            >Вы действительно хотите удалить этот
+            продукт?</v-card-text
           >
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -49,13 +53,13 @@
               color="blue-darken-1"
               variant="text"
               @click="closeDelete"
-              >Cancel</v-btn
+              >Нет, я передумал</v-btn
             >
             <v-btn
               color="blue-darken-1"
               variant="text"
               @click="deleteItemConfirm"
-              >OK</v-btn
+              >ДА</v-btn
             >
             <v-spacer></v-spacer>
           </v-card-actions>
@@ -66,27 +70,6 @@
       </v-icon>
     </template>
   </v-data-table-virtual>
-
-  <v-table density="compact" hover>
-    <tfoot>
-      <tr class="footer">
-        <th class="footer__total">Total:</th>
-        <th class="text-center footer__calories">
-          {{ getTotalSmth('calories') }}
-        </th>
-        <th class="text-center footer__proteins">
-          {{ getTotalSmth('proteins') }}
-        </th>
-        <th class="text-center footer__fats">
-          {{ getTotalSmth('fats') }}
-        </th>
-        <th class="text-center footer__carbons">
-          {{ getTotalSmth('carbs') }}
-        </th>
-        <th class="footer__space"></th>
-      </tr>
-    </tfoot>
-  </v-table>
 </template>
 <script>
 import appAddProduct from '@/components/addProduct.vue'
@@ -115,39 +98,34 @@ export default {
       choosenItemIndex: -1,
       headers: [
         {
-          title: 'Dessert (100g serving)',
-          align: 'start',
-          width: '295px',
+          title: 'Продукт (100 г)',
+          align: 'center',
           sortable: false,
           key: 'food.name',
         },
         {
-          title: 'Calories (kk)',
+          title: 'Калории (кк)',
           key: 'food.calories',
           align: 'center',
-          width: '200px',
         },
         {
-          title: 'Protein (g)',
+          title: 'Белки (г)',
           key: 'food.proteins',
           align: 'center',
-          width: '200px',
         },
         {
-          title: 'Fat (g)',
+          title: 'Жиры (г)',
           key: 'food.fats',
           align: 'center',
-          width: '200px',
         },
         {
-          title: 'Carbs (g)',
+          title: 'Углеводы (г)',
           key: 'food.carbs',
           align: 'center',
-          width: '200px',
         },
-        { title: 'Mass (g)', key: 'mass', align: 'center' },
+        { title: 'Масса (г)', key: 'mass', align: 'center' },
         {
-          title: 'Actions',
+          title: 'Действия',
           key: 'actions',
           sortable: false,
           align: 'center',
@@ -155,8 +133,8 @@ export default {
       ],
       groupBy: [
         {
+          title: 'Группа',
           key: 'type',
-          width: '200px',
           order: 'asc',
         },
       ],
@@ -211,7 +189,11 @@ export default {
       this.dialogDelete = false
     },
   },
-  mounted() {},
+  mounted() {
+    document.getElementsByClassName(
+      'v-data-table-header__content'
+    )[0].textContent = 'Группа'
+  },
   watch: {
     foods() {
       this.modifiedFoods = this.modifyFoods()
