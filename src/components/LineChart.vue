@@ -27,6 +27,10 @@ export default {
       type: Array,
       required: true,
     },
+    title: {
+      type: String,
+      required: false,
+    },
   },
   data() {
     return {
@@ -64,7 +68,7 @@ export default {
           curve: 'straight',
         },
         title: {
-          text: 'Калории по приемам пищи за все время',
+          text: `Калории по приемам пищи за ${this.title}`,
           align: 'center',
           style: {
             fontSize: '20px',
@@ -102,10 +106,17 @@ export default {
     categories() {
       this.$refs.lineChart.updateOptions({
         title: {
-          text: 'Калории по приемам пищи за выбранный период',
+          text: `Калории по приемам пищи за ${this.title}`,
         },
         xaxis: {
           categories: this.categories,
+        },
+      })
+    },
+    title() {
+      this.$refs.lineChart.updateOptions({
+        title: {
+          text: `Калории по дням за ${this.title}`,
         },
       })
     },

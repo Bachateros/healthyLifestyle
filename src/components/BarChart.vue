@@ -26,6 +26,10 @@ export default {
       type: Array,
       required: true,
     },
+    title: {
+      type: String,
+      required: false,
+    },
   },
   data() {
     return {
@@ -37,7 +41,7 @@ export default {
       ],
       chartOptions: {
         title: {
-          text: 'Калории по дням за все время',
+          text: `Калории по дням за ${this.title}`,
           align: 'center',
           style: {
             fontSize: '20px',
@@ -230,7 +234,14 @@ export default {
       this.render()
       this.$refs.barChart.updateOptions({
         title: {
-          text: 'Калории по дням за выбранный период',
+          text: `Калории по дням за ${this.title}`,
+        },
+      })
+    },
+    title() {
+      this.$refs.barChart.updateOptions({
+        title: {
+          text: `Калории по дням за ${this.title}`,
         },
       })
     },

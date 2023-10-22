@@ -17,6 +17,10 @@ export default {
       type: Array,
       required: true,
     },
+    title: {
+      type: String,
+      required: false,
+    },
   },
   data() {
     return {
@@ -27,7 +31,7 @@ export default {
         },
         labels: ['Белки', 'Жиры', 'Углеводы'],
         title: {
-          text: 'БЖУ за все время',
+          text: `БЖУ за ${this.title}`,
           style: {
             fontSize: '20px',
           },
@@ -71,7 +75,14 @@ export default {
       this.series = this.data
       this.$refs.donutChart.updateOptions({
         title: {
-          text: 'БЖУ за выбранный период',
+          text: `БЖУ за ${this.title}`,
+        },
+      })
+    },
+    title() {
+      this.$refs.donutChart.updateOptions({
+        title: {
+          text: `Калории по дням за ${this.title}`,
         },
       })
     },

@@ -30,20 +30,35 @@
           :min="startDate"
         />
       </div>
+      <div v-if="isChoosenDate">
+        <v-btn
+          variant="tonal"
+          class="primary"
+          color="#80A1E0"
+          @click="resetDate"
+          >Сбросить</v-btn
+        >
+      </div>
     </div>
     <appLineChart
       class="mt-3"
       :data="chartData"
       :categories="chartCategories"
       :foods="chartFoods"
+      :title="isChoosenDate ? 'выбранный период' : 'все время'"
     />
     <appBarChart
       class="mt-10"
       :expectedCalories="getNeedCalories"
       :names="barChartNames"
       :data="barChartData"
+      :title="isChoosenDate ? 'выбранный период' : 'все время'"
     />
-    <appDonutChart class="mt-10" :data="donutData" />
+    <appDonutChart
+      class="mt-10"
+      :data="donutData"
+      :title="isChoosenDate ? 'выбранный период' : 'все время'"
+    />
   </div>
 </template>
 <script>
@@ -136,6 +151,19 @@ export default {
       this.barChartNames = this.getBarNames
       this.donutData = this.getDonutData
     },
+    resetDate() {
+      this.startDate = null
+      this.endDate = null
+      this.setup()
+    },
+    setup() {
+      this.chartData = this.getChartData
+      this.chartCategories = this.getChartCategories
+      this.chartFoods = this.foodStore.withMultiplyCategories
+      this.barChartNames = this.getBarNames
+      this.barChartData = this.getBarData
+      this.donutData = this.getDonutData
+    },
   },
   computed: {
     getChartData() {
@@ -195,14 +223,12 @@ export default {
       })
       return donutData.map(el => +el.toFixed(2))
     },
+    isChoosenDate() {
+      return this.startDate || this.endDate
+    },
   },
   created() {
-    this.chartData = this.getChartData
-    this.chartCategories = this.getChartCategories
-    this.chartFoods = this.foodStore.withMultiplyCategories
-    this.barChartNames = this.getBarNames
-    this.barChartData = this.getBarData
-    this.donutData = this.getDonutData
+    this.setup()
   },
 }
 </script>
@@ -210,6 +236,10 @@ export default {
 <style lang="scss" scoped>
 .calendar {
   position: absolute;
+}
+.reset {
+  color: red;
+  background: #000;
 }
 .active {
   background: #b0b0b0;
