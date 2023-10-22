@@ -1,28 +1,28 @@
 <template>
   <v-menu location="bottom" scroll>
     <template v-slot:activator="{ props }">
-      <v-card-title class="text-center">
-        <!-- Search food component -->
-        <v-spacer></v-spacer>
-        <v-text-field
-          v-bind="props"
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="Search"
-          hide-details
-          @click="log"
-        ></v-text-field>
-      </v-card-title>
+      <v-text-field
+        v-bind="props"
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        hide-details
+      ></v-text-field>
     </template>
 
     <v-list class="list">
-      <v-list-item v-for="item in foodList" :key="item.name">
+      <v-list-item
+        class="hover"
+        v-for="item in foodList"
+        :key="item.name"
+      >
         <v-list-item-title @click="selectFood(item)">{{
           item.name
         }}</v-list-item-title>
       </v-list-item>
-      <v-list-item>
-        <v-list-item-title @click="selectFood(item)"
+
+      <v-list-item v-if="foodList.length == 1">
+        <v-list-item-title class="text-left" @click="selectFood(item)"
           ><appAddProductToCatalog
         /></v-list-item-title>
       </v-list-item>
@@ -40,18 +40,17 @@ export default {
     return {
       search: '',
       foodBase: useFoodStore(),
+      isShow: false,
     }
   },
   methods: {
     selectFood(item) {
+      console.log('select!')
       if (item.name != 'Нет совпадений') this.search = item.name
       else {
         this.search = ''
       }
       this.$emit('selecttedFood', item)
-    },
-    log(e) {
-      console.log('event', e.target)
     },
   },
   computed: {
@@ -74,5 +73,11 @@ export default {
   max-height: 200px;
   max-width: 400px;
   overflow-y: scroll;
+}
+.hover {
+  cursor: pointer;
+  &:hover {
+    background: rgb(232, 232, 232);
+  }
 }
 </style>

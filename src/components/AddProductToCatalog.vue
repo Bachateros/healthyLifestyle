@@ -9,7 +9,6 @@
       <v-card-title>
         <span class="text-h5">New Item</span>
       </v-card-title>
-
       <v-card-text>
         <v-container>
           <v-row>
@@ -46,7 +45,6 @@
           </v-row>
         </v-container>
       </v-card-text>
-
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="blue-darken-1" variant="text" @click="close">
