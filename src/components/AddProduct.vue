@@ -60,8 +60,10 @@
                   <appSearchFood
                     @selecttedFood="selectFood"
                     required
-                    :rules="requiredRule"
                   />
+                  <p v-if="!isValid" class="error">
+                    Вы не выбрали продукт!
+                  </p>
                 </v-col>
               </v-row>
               <v-row
@@ -143,7 +145,6 @@ export default {
       mass: 0, //150 gramm
     },
     requiredRule: [value => !!value || 'Required'],
-
     massRule: [
       value => !!value || 'Requred',
       value => !isNaN(value) || 'Must be number',
@@ -152,7 +153,7 @@ export default {
   }),
   computed: {
     isValid() {
-      return this.addingFood.type && this.addingFood.mass
+      return this.addingFood.food.name != 'Нет совпадений'
     },
   },
   methods: {
@@ -170,7 +171,6 @@ export default {
     selectFood(food) {
       this.isSelectMass = true
       this.addingFood.food = food
-      console.log(this.addingFood)
     },
     addMass(e) {
       this.addingFood.mass = +e.target.value
@@ -187,7 +187,7 @@ export default {
     async validate() {
       const { valid } = await this.$refs.form.validate()
 
-      if (valid && this.addingFood.mass) {
+      if (valid && this.isValid) {
         for (const key in this.addingFood.food) {
           if (key != 'name') {
             this.addingFood.food[key] = this.getNumber(
@@ -218,5 +218,11 @@ export default {
 .bigger {
   font-size: 1.3em;
   height: 50px;
+}
+.error {
+  font-size: 1.4em;
+  color: rgb(163, 24, 24);
+  text-align: center;
+  text-shadow: 1px 1px red;
 }
 </style>
