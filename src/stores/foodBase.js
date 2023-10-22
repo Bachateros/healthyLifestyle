@@ -48,14 +48,11 @@ export const useFoodStore = defineStore('foodStore', {
     },
   },
   actions: {
-    async getFood() {
+    async setFood() {
       const url = 'http://localhost:3001' //Обращение к собственному серверу
       const res = await fetch(url)
       const data = await res.json()
-      return data
-    },
-    setFood() {
-      this.foods = this.getFood().concat(this.$state.addedFoods)
+      this.foods = await data.concat(this.$state.addedFoods)
     },
     updateEatenBase() {
       window.localStorage.setItem(

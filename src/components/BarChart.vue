@@ -35,7 +35,7 @@ export default {
     return {
       series: [
         {
-          name: 'Actual',
+          name: 'Съдено на ... кк',
           data: [],
         },
       ],

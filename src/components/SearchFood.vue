@@ -45,7 +45,6 @@ export default {
   },
   methods: {
     selectFood(item) {
-      console.log('select!')
       if (item.name != 'Нет совпадений') this.search = item.name
       else {
         this.search = ''
