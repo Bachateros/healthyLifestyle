@@ -152,16 +152,17 @@ export default {
   computed: {
     getChartData() {
       const arr = this.foodStore.sortedByDataEatenFoods
-      for (const key in arr.food) {
-        if (key != 'name') {
-          arr.food[key] = this.getValue(arr.food[key], arr.mass)
+      arr.forEach((el, index) => {
+        for (const key in el.food) {
+          if (key != 'name') {
+            arr[index].food[key] = this.getValue(
+              el.food[key],
+              el.mass
+            )
+          }
         }
-      }
-      this.chartFoods = arr
-      console.log(this.chartFoods)
-      return this.foodStore.sortedByDataEatenFoods.map(
-        el => el.food.calories
-      )
+      })
+      return arr.map(el => el.food.calories)
     },
     getChartCategories() {
       return this.foodStore.sortedByDataEatenFoods.map(
@@ -178,9 +179,6 @@ export default {
             this.user.userData.height * 6.25 -
             this.user.userData.age * 5 -
             161
-    },
-    getCaloriesByDay() {
-      return
     },
     getBarNames() {
       return Array.from(
