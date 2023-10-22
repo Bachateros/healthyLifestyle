@@ -25,6 +25,7 @@ export const useUserInformation = defineStore('user', {
     },
     deleteUserData() {
       window.localStorage.removeItem('user')
+      window.localStorage.removeItem('eatenFood')
       this.userData = getUserData()
     },
   },

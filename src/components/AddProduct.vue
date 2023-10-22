@@ -174,7 +174,7 @@ export default {
     getNumber(string) {
       if (isNaN(string)) {
         const spaceChar = string.indexOf(' ')
-        return string
+        return +string
           .slice(0, spaceChar) //вычленить цифры
           .replace(',', '.')
           .slice(0)
