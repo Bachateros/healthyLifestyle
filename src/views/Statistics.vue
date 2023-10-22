@@ -33,6 +33,7 @@
     </div>
     {{ user.userData }}
     {{ getNeedCalories }}
+    --{{ chartData }}--
     {{ getBarNames }}
     {{ getBarData }}
     <appLineChart
@@ -44,8 +45,8 @@
     <appBarChart
       class="mt-10"
       :expectedCalories="getNeedCalories"
-      :names="getBarNames"
-      :data="getBarData"
+      :names="barChartNames"
+      :data="barChartData"
     />
   </div>
 </template>
@@ -80,6 +81,8 @@ export default {
       chartData: [],
       chartCategories: [],
       chartFoods: [],
+      barChartData: [],
+      barChartNames: [],
     }
   },
   methods: {
@@ -110,6 +113,8 @@ export default {
       this.chartFoods = filteredArray
       this.chartData = filteredArray.map(el => el.food.calories)
       this.chartCategories = filteredArray.map(el => el.date)
+      this.barChartData = this.getBarData
+      this.barChartNames = this.getBarNames
     },
     endStatistic() {
       const filteredArray =
@@ -127,6 +132,8 @@ export default {
       this.chartFoods = filteredArray
       this.chartData = filteredArray.map(el => el.food.calories)
       this.chartCategories = filteredArray.map(el => el.date)
+      this.barChartData = this.getBarData
+      this.barChartNames = this.getBarNames
     },
   },
   computed: {
@@ -152,17 +159,11 @@ export default {
             161
     },
     getBarNames() {
-      return Array.from(
-        new Set(
-          this.foodStore.sortedByDataEatenFoods.map(el => el.date)
-        )
-      )
+      return Array.from(new Set(this.chartFoods.map(el => el.date)))
     },
     getBarData() {
       const barNames = this.getBarNames
       const barData = []
-      const caloriesArray = this.getChartData
-      console.log(barNames)
       this.getBarNames.forEach((date, dateIndex) => {
         this.chartFoods.forEach((el, elIndex) => {
           if (el.date === date) {
@@ -179,23 +180,8 @@ export default {
     this.chartData = this.getChartData
     this.chartCategories = this.getChartCategories
     this.chartFoods = this.foodStore.withMultiplyCategories
-  },
-  mounted() {
-    // const filteredArray = this.foodStore.sortedByDataEatenFoods
-    // const uniqDates = new Set(filteredArray.map(el => el.date))
-    // const newArr = filteredArray.filter(item => {
-    //   if (uniqDates.has(item.date)) {
-    //     uniqDates.delete(item.date)
-    //     console.log(uniqDates)
-    //     return true
-    //   } else {
-    //     return false
-    //   }
-    // })
-    // newArr.forEach(element => {
-    // });
-    // console.log(newArr)
-    // console.log(uniqDates)
+    this.barChartNames = this.getBarNames
+    this.barChartData = this.getBarData
   },
 }
 </script>

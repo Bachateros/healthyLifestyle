@@ -44,6 +44,9 @@ export default {
           height: 350,
           type: 'bar',
         },
+        noData: {
+          text: 'Вы ничего не съели за этот период',
+        },
         plotOptions: {
           bar: {
             columnWidth: '60%',
@@ -195,34 +198,40 @@ export default {
         ? 'red'
         : '#775DD0'
     },
+    render() {
+      this.series[0].data = []
+      this.data.forEach((el, index) => {
+        this.series[0].data.push({
+          x: this.names[index],
+          y: el,
+          goals: [
+            {
+              name: 'Ваша норма, кк',
+              value: this.expectedCalories,
+              strokeHeight: 3,
+              strokeColor: this.getExpectedColor(
+                this.expectedCalories,
+                el
+              ),
+            },
+          ],
+        })
+      })
+    },
   },
   created() {
-    console.log(this.names)
-    this.data.forEach((el, index) => {
-      this.series[0].data.push({
-        x: this.names[index],
-        y: el,
-        goals: [
-          {
-            name: 'Ваша норма, кк',
-            value: this.expectedCalories,
-            strokeHeight: 3,
-            strokeColor: this.getExpectedColor(
-              this.expectedCalories,
-              el
-            ),
-          },
-        ],
-      })
-    })
+    this.render()
   },
-  // watch: {
-  //   names() {
-  //     this.series.forEach(item =>
-  //       item.map((x, index) => names[index])
-  //     )
-  //     console.log(this.series)
-  //   },
-  // },
+  watch: {
+    data() {
+      this.render()
+      this.$refs.barChart.updateOptions({
+        title: {
+          text: 'Калории по дням за выбранный период',
+          align: 'center',
+        },
+      })
+    },
+  },
 }
 </script>

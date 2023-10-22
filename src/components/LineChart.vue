@@ -95,11 +95,8 @@ export default {
           title: 'log',
         },
       })
-      console.log('change props data')
     },
     categories() {
-      console.log('change props categories')
-
       this.$refs.lineChart.updateOptions({
         title: {
           text: 'Калории по приемам пищи за выбранный период',
@@ -110,18 +107,5 @@ export default {
       })
     },
   },
-  // created() {
-  //   this.updateChartSeries(
-  //     this.foodStore.sortedByDataEatenFoods.map(
-  //       el => el.food.calories
-  //     )
-  //   )
-  //   this.updateChartOptionsXaxisCategories(
-  //     this.foodStore.sortedByDataEatenFoods.map(el => el.date)
-  //   )
-  //   console.log(this.series)
-  //   console.log('----------------')
-  //   console.log(this.foodStore.sortedByDataEatenFoods)
-  // },
 }
 </script>
