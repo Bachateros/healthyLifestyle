@@ -31,6 +31,7 @@
               <v-col cols="8">
                 <appCalendar
                   @selecttedDate="selectDate"
+                  :choosenDate="choosenDate"
                   typeInput="input"
                 />
               </v-col>
@@ -123,6 +124,11 @@ export default {
       required: false,
       default: '',
     },
+    choosenDate: {
+      type: Date,
+      required: false,
+      default: new Date(),
+    },
   },
   data: () => ({
     foodStore: useFoodStore(),
@@ -132,9 +138,7 @@ export default {
     isSelectType: false,
     addingFood: {
       type: '', //breakfast/lunch/dinner/fastfood
-      date: format(new Date(), 'dd.MM.yyyy', {
-        locale: ru,
-      }), //15.09.2023
+      date: null, //15.09.2023
       food: {}, //алыча
       mass: 0, //150 gramm
     },
@@ -198,6 +202,13 @@ export default {
     },
   },
   mounted() {
+    this.addingFood.date = format(
+      this.$props.choosenDate,
+      'dd.MM.yyyy',
+      {
+        locale: ru,
+      }
+    )
     this.addingFood.type = this.$props.typeOfMeal
     this.isSelectType = !!this.addingFood.type
   },

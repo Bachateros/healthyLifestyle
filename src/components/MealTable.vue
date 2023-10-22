@@ -25,7 +25,10 @@
           {{ item.value }}
         </td>
         <td :colspan="1" class="text-center">
-          <appAddProduct :typeOfMeal="item.value" />
+          <appAddProduct
+            :typeOfMeal="item.value"
+            :choosenDate="choosenDate"
+          />
         </td>
       </tr>
     </template>
@@ -97,6 +100,11 @@ export default {
     foods: {
       type: Array,
       required: true,
+    },
+    choosenDate: {
+      type: Date,
+      required: false,
+      default: new Date(),
     },
   },
   data() {

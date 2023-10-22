@@ -11,16 +11,22 @@
         >{{ selecttedDay }}</v-btn
       >
       <div class="calendar" v-if="isCalendarShowed">
-        <appCalendar @selecttedDate="selectDate" />
+        <appCalendar
+          @selecttedDate="selectDate"
+          :choosenDate="choosenDate"
+        />
       </div>
       <span v-if="isEatenSmth">вы съели:</span>
       <span v-else>вы еще ничего не съели.</span>
     </div>
     <div v-if="isEatenSmth">
-      <appMealTable :foods="getTodayEatenFood" />
+      <appMealTable
+        :foods="getTodayEatenFood"
+        :choosenDate="choosenDate"
+      />
     </div>
     <div v-else>
-      <appAddProduct type="string" />
+      <appAddProduct type="string" :choosenDate="choosenDate" />
     </div>
     <v-row
       v-if="isEatenSmth"
@@ -73,6 +79,7 @@ export default {
     return {
       foodStore: useFoodStore(),
       user: useUserInformation(),
+      choosenDate: new Date(),
       today: format(new Date(), 'dd.MM.yyyy', { locale: ru }),
       isCalendarShowed: false,
     }
@@ -101,6 +108,7 @@ export default {
   },
   methods: {
     selectDate(data) {
+      this.choosenDate = data.date
       this.today = format(data.date, 'dd.MM.yyyy', { locale: ru })
       this.isCalendarShowed = false
     },

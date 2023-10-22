@@ -50,10 +50,15 @@ export default {
       required: false,
       default: new Date(1980, 1, 1),
     },
+    choosenDate: {
+      type: Date,
+      required: false,
+      default: new Date(),
+    },
   },
   data() {
     return {
-      date: new Date(),
+      date: this.choosenDate,
       isCalendar: false,
     }
   },
