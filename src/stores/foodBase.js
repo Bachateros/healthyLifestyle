@@ -34,7 +34,6 @@ export const useFoodStore = defineStore('foodStore', {
       const arr = JSON.parse(
         JSON.stringify(this.sortedByDataEatenFoods)
       )
-      console.log(arr)
       arr.forEach((el, index) => {
         for (const key in el.food) {
           if (key != 'name') {
@@ -45,7 +44,6 @@ export const useFoodStore = defineStore('foodStore', {
           }
         }
       })
-      console.log(arr)
       return arr
     },
   },

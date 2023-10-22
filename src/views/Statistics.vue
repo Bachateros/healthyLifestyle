@@ -83,9 +83,6 @@ export default {
     }
   },
   methods: {
-    getValue(smth, mass) {
-      return +((smth * mass) / 100).toFixed(2)
-    },
     selectStartDate(data) {
       this.startDate = data.date
       this.isStartCalendarShowed = false
@@ -101,7 +98,7 @@ export default {
     },
     startStatistic() {
       const filteredArray =
-        this.foodStore.sortedByDataEatenFoods.filter(
+        this.foodStore.withMultiplyCategories.filter(
           el =>
             el.date >=
               format(this.startDate, 'dd.MM.yyyy', { locale: ru }) &&
@@ -110,22 +107,13 @@ export default {
                 ? format(this.endDate, 'dd.MM.yyyy', { locale: ru })
                 : format(new Date(), 'dd.MM.yyyy', { locale: ru }))
         )
-      for (const key in filteredArray.food) {
-        if (key != 'name') {
-          filteredArray.food[key] = this.getValue(
-            filteredArray.food[key],
-            filteredArray.mass
-          )
-        }
-      }
       this.chartFoods = filteredArray
-      console.log(this.chartData)
-      // this.chartData = filteredArray.map(el => el.food.calories)
+      this.chartData = filteredArray.map(el => el.food.calories)
       this.chartCategories = filteredArray.map(el => el.date)
     },
     endStatistic() {
       const filteredArray =
-        this.foodStore.sortedByDataEatenFoods.filter(
+        this.foodStore.withMultiplyCategories.filter(
           el =>
             el.date <=
               format(this.endDate, 'dd.MM.yyyy', { locale: ru }) &&
@@ -136,16 +124,7 @@ export default {
                     locale: ru,
                   }))
         )
-      for (const key in filteredArray.food) {
-        if (key != 'name') {
-          filteredArray.food[key] = this.getValue(
-            filteredArray.food[key],
-            filteredArray.mass
-          )
-        }
-      }
       this.chartFoods = filteredArray
-      console.log(this.chartData)
       this.chartData = filteredArray.map(el => el.food.calories)
       this.chartCategories = filteredArray.map(el => el.date)
     },
@@ -180,17 +159,26 @@ export default {
       )
     },
     getBarData() {
-      const barData = this.getChartData
-      console.log(barData)
-      this.getBarNames.forEach((el, index) => {
-        this.foodStore.sortedByDataEatenFoods
+      const barNames = this.getBarNames
+      const barData = []
+      const caloriesArray = this.getChartData
+      console.log(barNames)
+      this.getBarNames.forEach((date, dateIndex) => {
+        this.chartFoods.forEach((el, elIndex) => {
+          if (el.date === date) {
+            barData[dateIndex]
+              ? (barData[dateIndex] += el.food.calories)
+              : barData.push(el.food.calories)
+          }
+        })
       })
-      return []
+      return barData
     },
   },
   created() {
     this.chartData = this.getChartData
     this.chartCategories = this.getChartCategories
+    this.chartFoods = this.foodStore.withMultiplyCategories
   },
   mounted() {
     // const filteredArray = this.foodStore.sortedByDataEatenFoods

@@ -18,6 +18,8 @@ export default {
     data: {
       //значения столбцов(общее кк за день)
       //массив готовых значений
+      type: Array,
+      required: true,
     },
     names: {
       //подписи столбцов(даты)
@@ -30,69 +32,7 @@ export default {
       series: [
         {
           name: 'Actual',
-          data: [
-            {
-              x: '2011',
-              y: 1292,
-              goals: [
-                {
-                  name: 'Expected',
-                  value: this.expectedCalories,
-                  strokeHeight: 3,
-                  strokeColor: '#775DD0',
-                },
-              ],
-            },
-            {
-              x: '2012',
-              y: 4432,
-              goals: [
-                {
-                  name: 'Expected',
-                  value: this.expectedCalories,
-                  strokeHeight: 5,
-                  strokeColor: '#775DD0',
-                },
-              ],
-            },
-            {
-              x: '2013',
-              y: 5423,
-              goals: [
-                {
-                  name: 'Expected',
-                  value: 5200,
-                  strokeHeight: 5,
-                  strokeColor: '#775DD0',
-                },
-              ],
-            },
-            {
-              x: '2014',
-              y: 6653,
-              goals: [
-                {
-                  name: 'Expected',
-                  value: 6500,
-                  strokeHeight: 5,
-                  strokeColor: '#775DD0',
-                },
-              ],
-            },
-            {
-              x: '2018',
-              y: 6553,
-              goals: [
-                {
-                  name: 'Expected',
-                  value: 7300,
-                  strokeHeight: 2,
-                  strokeDashArray: 2,
-                  strokeColor: '#775DD0',
-                },
-              ],
-            },
-          ],
+          data: [],
         },
       ],
       chartOptions: {
@@ -247,25 +187,42 @@ export default {
       //   },
     }
   },
-  computed: {
-    // getX(){
-    //     return
-    // }
+  computed: {},
+  methods: {
+    getExpectedColor(plan, real) {
+      //красный цвет, если превысил норму на 10%
+      return (Math.abs(plan - real) / plan) * 100 > 10
+        ? 'red'
+        : '#775DD0'
+    },
   },
   created() {
     console.log(this.names)
-    this.series[0].data.forEach(
-      (obj, index) => (obj.x = this.names[index] ?? 'anonim')
-    )
-    console.log(this.series)
+    this.data.forEach((el, index) => {
+      this.series[0].data.push({
+        x: this.names[index],
+        y: el,
+        goals: [
+          {
+            name: 'Ваша норма, кк',
+            value: this.expectedCalories,
+            strokeHeight: 3,
+            strokeColor: this.getExpectedColor(
+              this.expectedCalories,
+              el
+            ),
+          },
+        ],
+      })
+    })
   },
-  watch: {
-    names() {
-      this.series.forEach(item =>
-        item.map((x, index) => names[index])
-      )
-      console.log(this.series)
-    },
-  },
+  // watch: {
+  //   names() {
+  //     this.series.forEach(item =>
+  //       item.map((x, index) => names[index])
+  //     )
+  //     console.log(this.series)
+  //   },
+  // },
 }
 </script>
