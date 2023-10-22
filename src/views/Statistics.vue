@@ -177,15 +177,32 @@ export default {
       )
     },
     getNeedCalories() {
-      return this.user.userData.sex === 'Male'
-        ? this.user.userData.weight * 10 +
+      'Низкий', 'Средний', 'Высокий', 'Очень высокий'
+      let needCalories =
+        this.user.userData.sex === 'Male'
+          ? this.user.userData.weight * 10 +
             this.user.userData.height * 6.25 -
             this.user.userData.age * 5 +
             5
-        : this.user.userData.weight * 10 +
+          : this.user.userData.weight * 10 +
             this.user.userData.height * 6.25 -
             this.user.userData.age * 5 -
             161
+      switch (this.user.userData.activity) {
+        case 'Низкий':
+          needCalories *= 1.2
+          break
+        case 'Средний':
+          needCalories *= 1.38
+          break
+        case 'Высокий':
+          needCalories *= 1.55
+          break
+        case 'Очень высокий':
+          needCalories *= 1.7
+          break
+      }
+      return needCalories
     },
     getBarNames() {
       return Array.from(new Set(this.chartFoods.map(el => el.date)))

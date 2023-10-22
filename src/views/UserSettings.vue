@@ -100,7 +100,6 @@
           </div>
           <p>Height: {{ user.userData.height }}</p>
           <p>Weight: {{ user.userData.weight }}</p>
-          <p>Weight: {{ user.userData.weight }}</p>
         </div>
       </div>
     </v-card>
