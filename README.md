@@ -1,7 +1,76 @@
-# Vue 3 + Vite
+# Приложение для учета калорий и питательных веществ.
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Разработанное с использованием Vite(Vue3), VueRouter, Pinia, Vuetify и ApexCharts.
 
-## Recommended IDE Setup
+## Реализованы следующие страницы приложения:
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+- Главный экран
+- Экран редактирования пользователя
+- Экран статистики
+- Экран-справочник
+
+## Взятые за основу требования
+
+- Инициализировать проект с помощью Vite.
+- Обращение к БД блюд/продуктов через простенькое API.
+- Хранение информации в localStorage.
+- Использование UI-компонента(Vuetify).
+
+## Зависимости
+
+Для запуска проекта необходимы следующие зависимости:
+
+- apexcharts
+- pinia
+- express
+- vue
+- vue-router
+- vue3-apexcharts
+- vuetify
+
+## Запуск проекта
+
+Для запуска проекта выполните следующие шаги:
+
+1. Клонирование репозитория: Склонируйте репозиторий проекта на свой локальный компьютер.
+
+git clone https://gitlab.com/VladSemenovForVibeLab/eshop.git
+
+2. Установите все зависимости командой
+
+```bash
+npm i
+```
+
+или
+
+```bash
+yarn install
+```
+
+3. Запуск приложения: Запустите приложение с помощью команды:
+
+```bash
+npm run start
+```
+
+4. Переход в браузере: Откройте браузер и перейдите по адресу http://localhost:5173 для доступа к приложению.
+
+Пожалуйста, обратите внимание, что в данном примере предполагается, что порт 5173 свободен для использования.
+
+## Дополнительная информация
+
+Данное приложение является тестовым заданием для прохождения в отдел ОВП. В нем реализованы такие функции как:
+
+- аутентификация пользователя
+- выбор в календаре любого дня и отметки за этот день съедобных блюд/продуктов(с указанием веса блюда и расчетом их показателей)
+- вывод информации о съеденных продуктах/блюд в виде таблицы
+- вывод информации о калориях и БЖУ съеденных продуктов/блюд в виде графиков
+- персонализация с казанием возраста, роста, веса и расчета рекомендуемых калорий
+- возможность добавления собственных продуктов в базу и расчет по ним
+
+## Автор
+
+Автор: Булычев Максим Олегович.
+Email: ser-morkovka47@mail.ru
+Gitlab: https://gitlab.com/VladSemenovForVibeLab
