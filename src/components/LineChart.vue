@@ -8,9 +8,6 @@
   ></apexchart>
 </template>
 <script>
-import format from 'date-fns/format'
-import { es, ru } from 'date-fns/locale'
-
 import { useFoodStore } from '@/stores/foodBase'
 export default {
   name: 'appLineChart',
@@ -49,10 +46,8 @@ export default {
             enabled: true,
             top: 10,
             left: -10,
-            // color: '#fff',
             opacity: 0.3,
           },
-          // foreColor: 'inherit', //color of title
           background: '#f9f9f9',
           zoom: {
             enabled: true,
@@ -86,9 +81,6 @@ export default {
         },
         xaxis: {
           categories: this.categories,
-          // min: 1,
-          // max: 7,
-          // range: 6,
         },
       },
     }

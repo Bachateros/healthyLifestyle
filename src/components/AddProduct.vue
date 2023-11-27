@@ -21,9 +21,9 @@
     </template>
     <v-card>
       <v-card-title class="text-center mb-n3">
-        <span class="text-h5 font-weight-medium"
-          >Что хотите добавить?</span
-        >
+        <span class="text-h5 font-weight-medium">
+          Что хотите добавить?
+        </span>
       </v-card-title>
       <v-card-text>
         <v-container>

@@ -1,5 +1,4 @@
 <template>
-  <appHeader></appHeader>
   <v-sheet
     width="75%"
     max-width="500"
@@ -139,13 +138,9 @@
   </v-sheet>
 </template>
 <script>
-import appHeader from '@/components/Header.vue'
 import { useUserInformation } from '@/stores/user'
 export default {
   name: 'appUserSettings',
-  components: {
-    appHeader,
-  },
   data: () => ({
     sex: ['Мужской', 'Женский'],
     activities: ['Низкий', 'Средний', 'Высокий', 'Очень высокий'],

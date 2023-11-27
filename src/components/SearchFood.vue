@@ -16,15 +16,18 @@
         v-for="item in foodList"
         :key="item.name"
       >
-        <v-list-item-title @click="selectFood(item)">{{
-          item.name
-        }}</v-list-item-title>
+        <v-list-item-title @click="selectFood(item)">
+          {{ item.name }}
+        </v-list-item-title>
       </v-list-item>
 
       <v-list-item v-if="foodList.length == 1">
-        <v-list-item-title class="text-left" @click="selectFood(item)"
-          ><appAddProductToCatalog
-        /></v-list-item-title>
+        <v-list-item-title
+          class="text-left"
+          @click="selectFood(item)"
+        >
+          <appAddProductToCatalog />
+        </v-list-item-title>
       </v-list-item>
     </v-list>
   </v-menu>

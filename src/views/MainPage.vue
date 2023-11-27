@@ -1,5 +1,4 @@
 <template>
-  <appHeader />
   <div v-if="user.isUser" class="pa-5">
     <h1 class="text-center">Доброго времени суток!</h1>
     <div>
@@ -63,14 +62,12 @@ import { useUserInformation } from '@/stores/user'
 import format from 'date-fns/format'
 import { es, ru } from 'date-fns/locale'
 
-import appHeader from '@/components/Header.vue'
 import appAddProduct from '@/components/AddProduct.vue'
 import appMealTable from '@/components/MealTable.vue'
 import appCalendar from '@/components/Calendar.vue'
 export default {
   name: 'appGlobalFeed',
   components: {
-    appHeader,
     appAddProduct,
     appMealTable,
     appCalendar,
