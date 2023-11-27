@@ -56,9 +56,6 @@ export default {
         noData: {
           text: 'Вы ничего не съели за этот период',
         },
-        dataLabels: {
-          enabled: true,
-        },
         stroke: {
           curve: 'straight',
         },

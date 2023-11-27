@@ -155,7 +155,7 @@ export default {
                       locale: ru,
                     }))
           )
-        updateCharts(filteredArray)
+        this.updateCharts(filteredArray)
       }
     },
     resetDate() {
