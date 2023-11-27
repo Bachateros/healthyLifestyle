@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="dialog" max-width="550px">
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <v-btn color="indigo" dark class="mb-2" v-bind="props">
         Новый продукт
       </v-btn>

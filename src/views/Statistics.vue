@@ -11,7 +11,10 @@
         >{{ startDate ? getNiceDate(startDate) : 'Начало' }}</v-btn
       >
       <div class="calendar" v-if="isStartCalendarShowed">
-        <appCalendar @selecttedDate="selectStartDate" />
+        <appCalendar
+          @selecttedDate="selectStartDate"
+          :choosenDate="startDate"
+        />
       </div>
       <span class="mx-2">-</span>
       <v-btn
@@ -26,6 +29,7 @@
       <div class="calendar" v-if="isEndCalendarShowed">
         <appCalendar
           @selecttedDate="selectEndDate"
+          :choosenDate="endDate"
           :min="startDate"
         />
       </div>
@@ -110,17 +114,7 @@ export default {
     getNiceDate(date) {
       if (date) return format(date, 'dd.MM.yyyy', { locale: ru })
     },
-    startStatistic() {
-      const filteredArray =
-        this.foodStore.withMultiplyCategories.filter(
-          el =>
-            el.date >=
-              format(this.startDate, 'dd.MM.yyyy', { locale: ru }) &&
-            el.date <=
-              (this.endDate
-                ? format(this.endDate, 'dd.MM.yyyy', { locale: ru })
-                : format(new Date(), 'dd.MM.yyyy', { locale: ru }))
-        )
+    updateCharts(filteredArray) {
       this.chartFoods = filteredArray
       this.chartData = filteredArray.map(el => el.food.calories)
       this.chartCategories = filteredArray.map(el => el.date)
@@ -128,25 +122,41 @@ export default {
       this.barChartNames = this.getBarNames
       this.donutData = this.getDonutData
     },
+    startStatistic() {
+      if (this.startDate) {
+        const filteredArray =
+          this.foodStore.withMultiplyCategories.filter(
+            el =>
+              el.date >=
+                format(this.startDate, 'dd.MM.yyyy', {
+                  locale: ru,
+                }) &&
+              el.date <=
+                (this.endDate
+                  ? format(this.endDate, 'dd.MM.yyyy', { locale: ru })
+                  : format(new Date(), 'dd.MM.yyyy', { locale: ru }))
+          )
+        this.updateCharts(filteredArray)
+      }
+    },
     endStatistic() {
-      const filteredArray =
-        this.foodStore.withMultiplyCategories.filter(
-          el =>
-            el.date <=
-              format(this.endDate, 'dd.MM.yyyy', { locale: ru }) &&
-            el.date >=
-              (this.startDate
-                ? format(this.startDate, 'dd.MM.yyyy', { locale: ru })
-                : format(new Date(0), 'dd.MM.yyyy', {
-                    locale: ru,
-                  }))
-        )
-      this.chartFoods = filteredArray
-      this.chartData = filteredArray.map(el => el.food.calories)
-      this.chartCategories = filteredArray.map(el => el.date)
-      this.barChartData = this.getBarData
-      this.barChartNames = this.getBarNames
-      this.donutData = this.getDonutData
+      if (this.endDate) {
+        const filteredArray =
+          this.foodStore.withMultiplyCategories.filter(
+            el =>
+              el.date <=
+                format(this.endDate, 'dd.MM.yyyy', { locale: ru }) &&
+              el.date >=
+                (this.startDate
+                  ? format(this.startDate, 'dd.MM.yyyy', {
+                      locale: ru,
+                    })
+                  : format(new Date(0), 'dd.MM.yyyy', {
+                      locale: ru,
+                    }))
+          )
+        updateCharts(filteredArray)
+      }
     },
     resetDate() {
       this.startDate = null
@@ -174,7 +184,6 @@ export default {
       )
     },
     getNeedCalories() {
-      'Низкий', 'Средний', 'Высокий', 'Очень высокий'
       let needCalories =
         this.user.userData.sex === 'Male'
           ? this.user.userData.weight * 10 +

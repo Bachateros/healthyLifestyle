@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="dialog" persistent width="80%">
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <v-btn
         v-if="type === 'plus'"
         color="indigo"

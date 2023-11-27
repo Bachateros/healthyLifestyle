@@ -7,12 +7,7 @@
     hover
   >
     <template
-      v-slot:group-header="{
-        item,
-        columns,
-        toggleGroup,
-        isGroupOpen,
-      }"
+      #group-header="{ item, columns, toggleGroup, isGroupOpen }"
     >
       <tr>
         <td :colspan="columns.length - 1">
@@ -33,7 +28,7 @@
       </tr>
     </template>
 
-    <template v-slot:item.actions="{ item }">
+    <template #item.actions="{ item }">
       <v-dialog
         v-model="dialogDelete"
         max-width="500px"

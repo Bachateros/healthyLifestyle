@@ -103,7 +103,7 @@
       >
 
       <v-dialog v-model="dialog" persistent width="auto">
-        <template v-slot:activator="{ props }">
+        <template #activator="{ props }">
           <v-btn color="error" v-bind="props">Удалить данные</v-btn>
         </template>
         <v-card>

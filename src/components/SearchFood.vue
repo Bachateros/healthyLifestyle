@@ -1,6 +1,6 @@
 <template>
   <v-menu location="bottom" scroll>
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <v-text-field
         v-bind="props"
         v-model="search"

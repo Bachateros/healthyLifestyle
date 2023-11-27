@@ -57,9 +57,10 @@ export default {
   },
   computed: {
     currentPage() {
-      return this.items.find(
-        el => el.value == this.$route.matched[0].name
-      ).title
+      return (
+        this.items.find(el => el.value == this.$route.name)?.title ||
+        'ЗОЖ-учет'
+      )
     },
   },
 }
