@@ -1,5 +1,4 @@
 <template>
-  <appHeader />
   <div class="text-center px-3 py-1">
     <div>
       <v-btn
@@ -65,7 +64,6 @@
 import format from 'date-fns/format'
 import { es, ru } from 'date-fns/locale'
 
-import appHeader from '@/components/Header.vue'
 import appCalendar from '@/components/Calendar.vue'
 import appLineChart from '@/components/LineChart.vue'
 import appBarChart from '@/components/BarChart.vue'
@@ -77,7 +75,6 @@ import { useUserInformation } from '@/stores/user'
 export default {
   name: 'appStatistics',
   components: {
-    appHeader,
     appCalendar,
     appLineChart,
     appBarChart,
