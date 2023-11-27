@@ -12,7 +12,8 @@ const getUserData = () => {
   const userInLocalStorage = window.localStorage.getItem('user')
   if (userInLocalStorage) {
     return JSON.parse(userInLocalStorage)
-  } else return defaultUserData
+  }
+  return defaultUserData
 }
 
 export const useUserInformation = defineStore('user', {

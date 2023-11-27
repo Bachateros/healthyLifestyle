@@ -1,8 +1,4 @@
 <template>
-  <!-- <v-date-picker
-    color="purple"
-    border
-  ></v-date-picker> -->
   <v-text-field
     prepend-icon="mdi mdi-calendar"
     v-if="!isCalendar && typeInput === 'input'"

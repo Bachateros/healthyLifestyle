@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-
+import { url as serverURL } from './globalValues.js'
 export const eatenFoodTemplate = {
   type: '', //breakfast/lunch/dinner/fastfood
   date: '', //15.09.2023
@@ -49,7 +49,7 @@ export const useFoodStore = defineStore('foodStore', {
   },
   actions: {
     async setFood() {
-      const url = 'http://localhost:3001' //Обращение к собственному серверу
+      const url = serverURL //Обращение к собственному серверу
       const res = await fetch(url)
       const data = await res.json()
       this.foods = await data.concat(this.$state.addedFoods)
